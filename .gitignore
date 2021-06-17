@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+
+# production
+dist
+
+# TypeScript cache
+*.tsbuildinfo
+
+# VS Code
+.vscode
+
+# other
+yarn-error.log
