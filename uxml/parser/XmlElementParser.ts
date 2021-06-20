@@ -7,11 +7,24 @@ export class XmlElementParser {
   private attributeParser = new XmlAttributeParser();
 
   public parse(data: StringParser): XmlElement {
-    data.moveToNextNonWhitespaceChar();
-    if (!data.match("<")) {
-      throw new ParseError("Begin of XML element not found", data.position);
+    while (!data.isEnd()) {
+      data.moveToNextNonWhitespaceChar();
+      if (!data.match("<")) {
+        throw new ParseError("Begin of XML element not found", data.position);
+      }
+
+      if (data.getNext() !== "!") {
+        return this.parseTag(data);
+      }
+
+      this.skipComment(data);
     }
 
+    throw new ParseError("XML element not found", data.position);
+  }
+
+  private parseTag(data: StringParser): XmlElement {
+    data.advance();
     const tagName = this.parseTagName(data);
     const attributes = this.parseAttributes(data);
     let children: XmlNode[] | undefined;
@@ -39,7 +52,6 @@ export class XmlElementParser {
       throw new ParseError("End of XML element tag name not found", data.position);
     }
 
-    data.advance();
     const tagName = data.substring(endOfTagName);
     if (!tagName) {
       throw new ParseError("Tag name expected", data.position);
@@ -138,5 +150,24 @@ export class XmlElementParser {
     }
 
     data.advance();
+  }
+
+  private skipComment(data: StringParser) {
+    if (!data.match("<!--")) {
+      throw new ParseError("Invalid comment opening", data.position);
+    }
+    const beginOfComment = data.position;
+    data.moveBy(4);
+
+    while (!data.isEnd()) {
+      const nextMinus = data.findFirst("-");
+      data.moveTo(nextMinus);
+      if (data.match("-->")) {
+        data.moveBy(3);
+        return;
+      }
+    }
+
+    throw new ParseError("Unclosed comment", beginOfComment);
   }
 }

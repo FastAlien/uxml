@@ -117,7 +117,7 @@ test("should parser XML element with nested children and no attributes", () => {
     .toEqual(expected);
 });
 
-test("should parser XML element with one text node child", () => {
+test("should parse XML element with one text node child", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
@@ -139,6 +139,24 @@ test("should parser XML element with one text node child", () => {
     .toEqual(expected);
 });
 
-/*
-<Person><Name>John Smith Johnson</Name></Pers
-*/
+test("should parse XML element with comments", () => {
+  const parser = new XmlElementParser();
+  const expected: XmlElement = {
+    tagName: "Person",
+    children: [
+      {
+        tagName: "Name",
+        children: [
+          "John Smith Johnson"
+        ]
+      }
+    ]
+  };
+
+  expect(parser.parse(new StringParser("<!-- Comment line --><Person><Name>John Smith Johnson</Name></Person>")))
+    .toEqual(expected);
+  expect(parser.parse(new StringParser("<!-- Comment line -->\n<Person><!-- Comment line -->\n  <Name>John Smith Johnson</Name>\n</Person>")))
+    .toEqual(expected);
+  expect(parser.parse(new StringParser("<!--\nComment\nline\n-->\n<Person><!--\nComment\nline\n-->\n  <Name>John Smith Johnson</Name>\n</Person>")))
+    .toEqual(expected);
+});
