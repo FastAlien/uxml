@@ -1,7 +1,7 @@
-import { NOT_FOUND, StringParser } from "parser/StringParser";
-import { XmlAttributes, XmlElement, XmlNode } from "parser/Types";
-import { ParseError } from "parser/ParseError";
-import { XmlAttributeParser } from "parser/XmlAttributeParser";
+import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
+import { XmlAttributes, XmlElement, XmlNode } from "uxml/parser/Types";
+import { ParseError } from "uxml/parser/ParseError";
+import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
 
 export class XmlElementParser {
   private attributeParser = new XmlAttributeParser();

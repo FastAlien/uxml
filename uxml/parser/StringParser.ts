@@ -1,6 +1,6 @@
-import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "common/StringUtils";
+import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "uxml/common/StringUtils";
 
-export { NOT_FOUND } from "common/StringUtils";
+export { NOT_FOUND };
 
 export class StringParser {
   private static readonly whitespaceChars = " \t\n\r";

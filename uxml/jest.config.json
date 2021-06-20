@@ -1,6 +1,0 @@
-{
-  "preset": "ts-jest",
-  "moduleNameMapper": {
-    "(common|parser)/(.+)": "<rootDir>/src/$1/$2"
-  }
-}

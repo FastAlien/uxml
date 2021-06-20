@@ -1,6 +1,6 @@
-import { NOT_FOUND, StringParser } from "parser/StringParser";
-import { ParseError } from "parser/ParseError";
-import { XmlAttribute } from "parser/Types";
+import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
+import { ParseError } from "uxml/parser/ParseError";
+import { XmlAttribute } from "uxml/parser/Types";
 
 export class XmlAttributeParser {
   public parse(data: StringParser): XmlAttribute {

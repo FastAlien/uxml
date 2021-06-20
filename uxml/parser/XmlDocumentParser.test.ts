@@ -1,5 +1,5 @@
-import { XmlDeclaration, XmlDocument } from "parser/Types";
-import { XmlDocumentParser } from "parser/XmlDocumentParser";
+import { XmlDeclaration, XmlDocument } from "uxml/parser/Types";
+import { XmlDocumentParser } from "uxml/parser/XmlDocumentParser";
 
 const xmlDecl = "<?xml version=\"1.0\"?>\n";
 const xmlDeclaration: XmlDeclaration = {

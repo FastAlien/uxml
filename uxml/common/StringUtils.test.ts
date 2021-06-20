@@ -1,4 +1,4 @@
-import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "common/StringUtils";
+import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "uxml/common/StringUtils";
 
 describe("findFirst", () => {
   test("should return NOT_FOUND (-1) if character was not found", () => {

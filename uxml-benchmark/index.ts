@@ -1,5 +1,6 @@
 import { Suite, Target } from "benchmark";
 import { Parser as Xml2JsParser } from "xml2js";
+import { XmlDocumentParser } from "uxml/parser/XmlDocumentParser";
 import { parse as fastXmlParse } from "fast-xml-parser";
 import { readFileSync } from "fs";
 import txml from "txml";
@@ -28,6 +29,7 @@ try {
   suite.add("txml", () => txml.parse(xmlData))
     .add("fast-xml-parser", () => fastXmlParse(xmlData))
     .add("xml2js", () => xml2jsParser.parseString(xmlData))
+    .add("uxml", () => new XmlDocumentParser().parse(xmlData))
     .run();
 } catch (error) {
   console.error("Error running benchmark: ", error);
