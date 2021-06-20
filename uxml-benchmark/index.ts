@@ -1,4 +1,4 @@
-import { Suite, Target } from "benchmark";
+import { Event, Suite, Target } from "benchmark";
 import { Parser as Xml2JsParser } from "xml2js";
 import { XmlDocumentParser } from "uxml/parser/XmlDocumentParser";
 import { parse as fastXmlParse } from "fast-xml-parser";
@@ -28,7 +28,10 @@ try {
   const xmlData = readFileSync(xmlFile, "utf-8");
   const suite = new Suite("XML parser benchmark", {
     onStart: () => console.log("Running Suite"),
-    onError: () => console.log("Error in Suite"),
+    onError: (event: Event) => {
+      const error = (event.target as { error?: Error }).error;
+      console.log("Error in Suite: ", error);
+    },
     onAbort: () => console.log("Aborting Suite"),
     onComplete: () => {
       suite.forEach((target: Target) => {
