@@ -19,12 +19,11 @@
   },
   "workspaces": [
     "uxml",
+    "tests/*",
     "tools"
   ],
   "scripts": {
     "build": "tsc --build",
-    "test": "jest --rootDir uxml",
-    "benchmark:simple": "yarn workspace uxml-benchmark run-simple",
-    "benchmark:dash-manifest": "yarn workspace uxml-benchmark run-dash-manifest"
+    "test": "jest --rootDir uxml"
   }
 }
