@@ -14,7 +14,7 @@
     "@types/xml2js": "^0.4.8"
   },
   "scripts": {
-    "run-simple": "ts-node index.ts data/Simple.xml",
-    "run-dash-manifest": "ts-node index.ts data/DashManifest.xml"
+    "run-simple": "ts-node benchmark.ts data/Simple.xml",
+    "run-dash-manifest": "ts-node benchmark.ts data/DashManifest.xml"
   }
 }
