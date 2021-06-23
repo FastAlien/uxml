@@ -35,7 +35,7 @@ export class XmlAttributeParser {
   }
 
   private parseAttributeValue(data: StringParser): string {
-    if (!data.match("\"") && !data.match("'")) {
+    if (data.isCurrentNotOneOf("\"'")) {
       throw new ParseError("Start of attribute value not found", data.position);
     }
 

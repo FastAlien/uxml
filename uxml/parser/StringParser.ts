@@ -24,7 +24,13 @@ export class StringParser {
   }
 
   public moveTo(position: number): void {
-    this.position_ = Math.max(0, Math.min(position, this.data.length));
+    if (position < 0) {
+      this.position_ = 0;
+    } else if (position > this.data.length) {
+      this.position_ = this.data.length;
+    } else {
+      this.position_ = position;
+    }
   }
 
   public getCurrent(): string {
@@ -33,6 +39,26 @@ export class StringParser {
 
   public getCharAt(position: number): string {
     return this.data.charAt(position);
+  }
+
+  public isCurrentOneOf(search: string): boolean {
+    const current = this.getCurrent();
+    for (let i = 0; i < search.length; i++) {
+      if (current === search.charAt(i)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public isCurrentNotOneOf(search: string): boolean {
+    const current = this.getCurrent();
+    for (let i = 0; i < search.length; i++) {
+      if (current === search.charAt(i)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public getNext(): string {

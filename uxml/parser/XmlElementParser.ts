@@ -32,7 +32,7 @@ export class XmlElementParser {
     if (data.match(">")) {
       data.advance();
       children = this.parseChildren(data);
-      this.expectClosingTag(data, tagName);
+      this.expectClosingTag(data);
     } else if (data.match("/>")) {
       data.moveBy(2);
     } else {
@@ -65,7 +65,7 @@ export class XmlElementParser {
     data.moveToNextNonWhitespaceChar();
     let attributes: XmlAttributes | undefined;
 
-    while (!data.isEnd() && data.getCurrent() !== "/" && data.getCurrent() !== ">") {
+    while (!data.isEnd() && data.isCurrentNotOneOf("/>")) {
       const { name, value } = this.attributeParser.parse(data);
       if (!attributes) {
         attributes = {
@@ -124,7 +124,7 @@ export class XmlElementParser {
     return data.substring(endOfText + 1);
   }
 
-  private expectClosingTag(data: StringParser, tagName: string): void {
+  private expectClosingTag(data: StringParser): void {
     if (!data.match("</")) {
       throw new ParseError("Closing tag expected", data.position);
     }
@@ -132,24 +132,12 @@ export class XmlElementParser {
     data.moveBy(2);
     data.moveToNextNonWhitespaceChar();
 
-    const endOfClosingTag = data.findFirstOf(" \t\r\n>");
+    const endOfClosingTag = data.findFirst(">");
     if (endOfClosingTag === NOT_FOUND) {
       throw new ParseError("Incomplete closing tag", data.position);
     }
 
-    const closingTagName = data.substring(endOfClosingTag);
-    if (closingTagName !== tagName) {
-      throw new ParseError(`Expected closing tag for ${tagName}`, data.position);
-    }
-
-    data.moveTo(endOfClosingTag);
-    data.moveToNextNonWhitespaceChar();
-
-    if (!data.match(">")) {
-      throw new ParseError("Incomplete closing tag", data.position);
-    }
-
-    data.advance();
+    data.moveTo(endOfClosingTag + 1);
   }
 
   private skipComment(data: StringParser) {
