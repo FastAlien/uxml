@@ -11,12 +11,21 @@ if (process.argv.length < 3 && process.argv.length > 4) {
 }
 
 const [, , xmlFile, option] = process.argv;
-let benchmarkOtherLibs = false;
+const enabledBenchmarks = {
+  txml: false,
+  fastXmlParser: false,
+  xml2js: false
+};
 
 if (option) {
   switch (option) {
+    case "--txml":
+      enabledBenchmarks.txml = true;
+      break;
     case "--all":
-      benchmarkOtherLibs = true;
+      enabledBenchmarks.txml = true;
+      enabledBenchmarks.fastXmlParser = true;
+      enabledBenchmarks.xml2js = true;
       break;
     default:
       console.error("Unknown option: ", option);
@@ -43,9 +52,15 @@ try {
   const uxmlParser = new XmlDocumentParser();
   suite.add("uxml", () => uxmlParser.parse(xmlData));
 
-  if (benchmarkOtherLibs) {
+  if (enabledBenchmarks.txml) {
     suite.add("txml", () => txml.parse(xmlData));
+  }
+
+  if (enabledBenchmarks.fastXmlParser) {
     suite.add("fast-xml-parser", () => fastXmlParse(xmlData));
+  }
+
+  if (enabledBenchmarks.xml2js) {
     const xml2jsParser = new Xml2JsParser();
     suite.add("xml2js", () => xml2jsParser.parseString(xmlData));
   }
