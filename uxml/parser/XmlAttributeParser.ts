@@ -6,11 +6,6 @@ export class XmlAttributeParser {
   public parse(data: StringParser): XmlAttribute {
     data.moveToNextNonWhitespaceChar();
     const name = this.parseAttributeName(data);
-
-    if (!data.match("=")) {
-      throw new ParseError("Missing equal sign after attribute name", data.position);
-    }
-
     data.advance();
     const value = this.parseAttributeValue(data);
     return {
@@ -35,19 +30,18 @@ export class XmlAttributeParser {
   }
 
   private parseAttributeValue(data: StringParser): string {
-    if (data.isCurrentNotOneOf("\"'")) {
+    const valueMark = data.getCurrent();
+    if (valueMark !== "\"" && valueMark !== "'") {
       throw new ParseError("Start of attribute value not found", data.position);
     }
-
-    const attributeValueMark = data.getCurrent();
     data.advance();
-    const closingDoubleQuotesPosition = data.findFirst(attributeValueMark);
-    if (closingDoubleQuotesPosition === NOT_FOUND) {
+    const closingValueMarkPosition = data.findFirst(valueMark);
+    if (closingValueMarkPosition === NOT_FOUND) {
       throw new ParseError("Closing mark for attribute value not found", data.position);
     }
 
-    const value = data.substring(closingDoubleQuotesPosition);
-    data.moveTo(closingDoubleQuotesPosition + 1);
+    const value = data.substring(closingValueMarkPosition);
+    data.moveTo(closingValueMarkPosition + 1);
     return value;
   }
 }

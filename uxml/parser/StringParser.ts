@@ -1,4 +1,4 @@
-import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "uxml/common/StringUtils";
+import { NOT_FOUND } from "uxml/common/StringUtils";
 
 export { NOT_FOUND };
 
@@ -37,24 +37,10 @@ export class StringParser {
     return this.data.charAt(this.position);
   }
 
-  public getCharAt(position: number): string {
-    return this.data.charAt(position);
-  }
-
-  public isCurrentOneOf(search: string): boolean {
-    const current = this.getCurrent();
-    for (let i = 0; i < search.length; i++) {
-      if (current === search.charAt(i)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public isCurrentNotOneOf(search: string): boolean {
-    const current = this.getCurrent();
+    const currentCharCode = this.data.charCodeAt(this.position);
     for (let i = 0; i < search.length; i++) {
-      if (current === search.charAt(i)) {
+      if (currentCharCode === search.charCodeAt(i)) {
         return false;
       }
     }
@@ -88,11 +74,11 @@ export class StringParser {
     }
 
     if (search.length === 1) {
-      return this.getCurrent() === search;
+      return this.data.charAt(this.position) === search;
     }
 
     for (let i = 0; i < search.length; i++) {
-      if (this.getCharAt(this.position + i) !== search.charAt(i)) {
+      if (this.data.charCodeAt(this.position + i) !== search.charCodeAt(i)) {
         return false;
       }
     }
@@ -101,15 +87,17 @@ export class StringParser {
   }
 
   public findFirst(search: string): number {
-    return findFirst(this.data, search, this.position);
+    return this.data.indexOf(search, this.position);
   }
 
-  public findFirstOf(search: string): number {
-    return findFirstOf(this.data, search, this.position);
-  }
-
-  public findFirstNotOf(search: string): number {
-    return findFirstNotOf(this.data, search, this.position);
+  public findFirstWhitespaceOrTagClosing(): number {
+    for (let i = this.position; i < this.data.length; i++) {
+      const charCode = this.data.charCodeAt(i);
+      if (charCode <= StringParser.minWhitespaceCharCode || charCode == 47 || charCode == 62) {
+        return i;
+      }
+    }
+    return NOT_FOUND;
   }
 
   public substring(end: number): string {

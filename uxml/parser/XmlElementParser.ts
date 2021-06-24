@@ -1,5 +1,5 @@
 import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
-import { XmlAttributes, XmlElement, XmlNode } from "uxml/parser/Types";
+import { XmlAttributes, XmlElement } from "uxml/parser/Types";
 import { ParseError } from "uxml/parser/ParseError";
 import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
 
@@ -22,6 +22,7 @@ export class XmlElementParser {
         } else {
           lastElement.children.push(text);
         }
+        continue;
       }
 
       const next = data.getNext();
@@ -72,31 +73,8 @@ export class XmlElementParser {
     throw new ParseError("XML element not found", data.position);
   }
 
-  private parseTag(data: StringParser): XmlElement {
-    data.advance();
-    const tagName = this.parseTagName(data);
-    const attributes = this.parseAttributes(data);
-    let children: XmlNode[] | undefined;
-
-    if (data.match(">")) {
-      data.advance();
-      children = this.parseChildren(data);
-      this.expectClosingTag(data);
-    } else if (data.match("/>")) {
-      data.moveBy(2);
-    } else {
-      throw new ParseError("XML element closing not found", data.position);
-    }
-
-    return {
-      tagName,
-      attributes,
-      children
-    };
-  }
-
   private parseTagName(data: StringParser): string {
-    const endOfTagName = data.findFirstOf(" \n\r\t/>");
+    const endOfTagName = data.findFirstWhitespaceOrTagClosing();
     if (endOfTagName === NOT_FOUND) {
       throw new ParseError("End of XML element tag name not found", data.position);
     }
@@ -129,30 +107,6 @@ export class XmlElementParser {
     return attributes;
   }
 
-  private parseChildren(data: StringParser): XmlNode[] | undefined {
-    data.moveToNextNonWhitespaceChar();
-    let children: XmlNode[] | undefined;
-
-    while (!data.isEnd() && !data.match("</")) {
-      const child = this.parseNode(data);
-      if (!children) {
-        children = [child];
-      } else {
-        children.push(child);
-      }
-      data.moveToNextNonWhitespaceChar();
-    }
-
-    return children;
-  }
-
-  private parseNode(data: StringParser): XmlNode {
-    if (data.match("<")) {
-      return this.parse(data);
-    }
-    return this.parseTextNode(data);
-  }
-
   private parseTextNode(data: StringParser): string {
     const nextTagMark = data.findFirst("<");
     if (nextTagMark === NOT_FOUND) {
@@ -174,37 +128,30 @@ export class XmlElementParser {
   }
 
   private expectClosingTag(data: StringParser): void {
-    if (!data.match("</")) {
-      throw new ParseError("Closing tag expected", data.position);
-    }
-
     data.moveBy(2);
     data.moveToNextNonWhitespaceChar();
 
-    const endOfClosingTag = data.findFirst(">");
-    if (endOfClosingTag === NOT_FOUND) {
+    const end = data.findFirst(">");
+    if (end === NOT_FOUND) {
       throw new ParseError("Incomplete closing tag", data.position);
     }
 
-    data.moveTo(endOfClosingTag + 1);
+    data.moveTo(end + 1);
   }
 
   private skipComment(data: StringParser) {
-    if (!data.match("<!--")) {
+    const begin = data.position;
+    data.moveBy(2);
+    if (!data.match("--")) {
       throw new ParseError("Invalid comment opening", data.position);
     }
-    const beginOfComment = data.position;
-    data.moveBy(4);
+    data.moveBy(2);
 
-    while (!data.isEnd()) {
-      const nextMinus = data.findFirst("-");
-      data.moveTo(nextMinus);
-      if (data.match("-->")) {
-        data.moveBy(3);
-        return;
-      }
+    const end = data.findFirst("-->");
+    if (end === NOT_FOUND) {
+      throw new ParseError("Unclosed comment", begin);
     }
 
-    throw new ParseError("Unclosed comment", beginOfComment);
+    data.moveTo(end + 3);
   }
 }
