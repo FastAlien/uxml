@@ -7,17 +7,66 @@ export class XmlElementParser {
   private attributeParser = new XmlAttributeParser();
 
   public parse(data: StringParser): XmlElement {
+    const elements: XmlElement[] = [];
+
     while (!data.isEnd()) {
       data.moveToNextNonWhitespaceChar();
       if (!data.match("<")) {
-        throw new ParseError("Begin of XML element not found", data.position);
+        if (elements.length === 0) {
+          throw new ParseError("Begin of XML element not found", data.position);
+        }
+        const text = this.parseTextNode(data);
+        const lastElement = elements[elements.length - 1];
+        if (!lastElement.children) {
+          lastElement.children = [text];
+        } else {
+          lastElement.children.push(text);
+        }
       }
 
-      if (data.getNext() !== "!") {
-        return this.parseTag(data);
-      }
+      const next = data.getNext();
+      if (next === "!") {
+        this.skipComment(data);
+      } else if (next === "/") {
+        this.expectClosingTag(data);
+        if (elements.length === 1) {
+          return elements[0];
+        }
+        const element = elements.pop();
+        if (!element) {
+          throw new Error("Unable to pop element from stack");
+        }
+        const lastElement = elements[elements.length - 1];
+        if (!lastElement.children) {
+          lastElement.children = [element];
+        } else {
+          lastElement.children.push(element);
+        }
+      } else {
+        data.advance();
+        const element = {
+          tagName: this.parseTagName(data),
+          attributes: this.parseAttributes(data)
+        };
 
-      this.skipComment(data);
+        if (data.match(">")) {
+          data.advance();
+          elements.push(element);
+        } else if (data.match("/>")) {
+          data.moveBy(2);
+          if (elements.length === 0) {
+            return element;
+          }
+          const lastElement = elements[elements.length - 1];
+          if (!lastElement.children) {
+            lastElement.children = [element];
+          } else {
+            lastElement.children.push(element);
+          }
+        } else {
+          throw new ParseError("XML element closing not found", data.position);
+        }
+      }
     }
 
     throw new ParseError("XML element not found", data.position);
