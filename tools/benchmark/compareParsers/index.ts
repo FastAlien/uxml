@@ -1,6 +1,6 @@
 import { Event, Suite, Target } from "benchmark";
 import { Parser as Xml2JsParser } from "xml2js";
-import { XmlDocumentParser } from "uxml/parser/XmlDocumentParser";
+import { XmlDocumentParser } from "uxml";
 import { parse as fastXmlParse } from "fast-xml-parser";
 import { readFileSync } from "fs";
 import txml from "txml";

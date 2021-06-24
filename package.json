@@ -1,6 +1,6 @@
 {
-  "name": "uxml-workspace",
-  "version": "1.0.0",
+  "name": "uxml-root",
+  "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "dependencies": {},
@@ -19,11 +19,14 @@
   },
   "workspaces": [
     "uxml",
-    "tests/*",
-    "tools"
+    "tools/*"
   ],
   "scripts": {
     "build": "tsc --build",
-    "test": "jest --rootDir uxml"
+    "test": "jest --rootDir uxml",
+    "benchmark:simple": "yarn workspace uxml-benchmark-tool compare-parsers ../../data/Simple.xml",
+    "benchmark:dash-manifest": "yarn workspace uxml-benchmark-tool compare-parsers ../../data/DashManifest.xml",
+    "profile:simple": "yarn workspace uxml-profiler-tool profile-simple",
+    "profile:dash-manifest": "yarn workspace uxml-profiler-tool profile-dash-manifest"
   }
 }
