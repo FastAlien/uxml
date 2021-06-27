@@ -38,13 +38,7 @@ export class StringParser {
   }
 
   public isCurrentNotOneOf(search: string): boolean {
-    const currentCharCode = this.data.charCodeAt(this.position);
-    for (let i = 0; i < search.length; i++) {
-      if (currentCharCode === search.charCodeAt(i)) {
-        return false;
-      }
-    }
-    return true;
+    return search.indexOf(this.getCurrent()) === NOT_FOUND;
   }
 
   public getNext(): string {
@@ -102,5 +96,15 @@ export class StringParser {
 
   public substring(end: number): string {
     return this.data.substring(this.position, end);
+  }
+
+  public extractText(end: number): string {
+    let endOfText: number;
+    for (endOfText = end - 1; endOfText > this.position; endOfText--) {
+      if (!this.isWhitespaceAt(endOfText)) {
+        break;
+      }
+    }
+    return this.substring(endOfText + 1);
   }
 }
