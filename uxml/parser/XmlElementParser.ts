@@ -1,4 +1,4 @@
-import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
+import { CharCode, NOT_FOUND, StringParser } from "uxml/parser/StringParser";
 import { XmlElement, XmlNode } from "uxml/parser/Types";
 import { ParseError } from "uxml/parser/ParseError";
 import { XmlAttributesParser } from "./XmlAttributesParser";
@@ -12,7 +12,7 @@ export class XmlElementParser {
 
     while (!data.isEnd()) {
       data.moveToNextNonWhitespaceChar();
-      if (!data.isLessThan()) {
+      if (!data.isCurrentCharCode(CharCode.LessThan)) {
         if (this.elements.length === 0) {
           throw new ParseError("Begin of XML element not found", data.position);
         }
@@ -20,9 +20,9 @@ export class XmlElementParser {
         continue;
       }
 
-      if (data.isExclamationMarkNext()) {
+      if (data.isNextCharCode(CharCode.ExclamationMark)) {
         this.skipComment(data);
-      } else if (data.isSlashNext()) {
+      } else if (data.isNextCharCode(CharCode.Slash)) {
         this.parseClosingTag(data);
         const element = this.elements.pop();
         if (!element) {
@@ -39,7 +39,7 @@ export class XmlElementParser {
           attributes: this.attributesParser.parse(data)
         };
 
-        if (data.isGreaterThan()) {
+        if (data.isCurrentCharCode(CharCode.GreaterThan)) {
           data.advance();
           this.elements.push(element);
         } else if (data.match("/>")) {

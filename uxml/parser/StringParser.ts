@@ -2,12 +2,15 @@ import { NOT_FOUND } from "uxml/common/StringUtils";
 
 export { NOT_FOUND };
 
+export enum CharCode {
+  ExclamationMark = 33,
+  Slash = 47,
+  LessThan = 60,
+  GreaterThan = 62
+}
+
 export class StringParser {
   private static readonly minWhitespaceCharCode = 32;
-  private static readonly exclamationMarkCharCode = 33;
-  private static readonly slashCharCode = 47;
-  private static readonly lessThanCharCode = 60;
-  private static readonly greaterThanCharCode = 62;
   private readonly data: string;
   private position_ = 0;
 
@@ -41,32 +44,12 @@ export class StringParser {
     return this.data.charAt(this.position_);
   }
 
-  public isSlash(): boolean {
-    return this.getCurrentCharCode() === StringParser.slashCharCode;
+  public isCurrentCharCode(charCode: CharCode): boolean {
+    return this.data.charCodeAt(this.position_) === charCode;
   }
 
-  public isLessThan(): boolean {
-    return this.getCurrentCharCode() === StringParser.lessThanCharCode;
-  }
-
-  public isGreaterThan(): boolean {
-    return this.getCurrentCharCode() === StringParser.greaterThanCharCode;
-  }
-
-  private getCurrentCharCode(): number {
-    return this.data.charCodeAt(this.position_);
-  }
-
-  public isSlashNext(): boolean {
-    return this.getNextCharCode() === StringParser.slashCharCode;
-  }
-
-  public isExclamationMarkNext(): boolean {
-    return this.getNextCharCode() === StringParser.exclamationMarkCharCode;
-  }
-
-  private getNextCharCode(): number {
-    return this.data.charCodeAt(this.position_ + 1);
+  public isNextCharCode(charCode: CharCode): boolean {
+    return this.data.charCodeAt(this.position_ + 1) === charCode;
   }
 
   public isEnd(): boolean {
@@ -112,8 +95,8 @@ export class StringParser {
     for (let i = this.position_; i < this.data.length; i++) {
       const charCode = this.data.charCodeAt(i);
       if (charCode <= StringParser.minWhitespaceCharCode ||
-        charCode == StringParser.slashCharCode ||
-        charCode == StringParser.greaterThanCharCode) {
+        charCode === CharCode.Slash ||
+        charCode === CharCode.GreaterThan) {
         return i;
       }
     }

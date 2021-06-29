@@ -1,4 +1,4 @@
-import { StringParser } from "./StringParser";
+import { CharCode, StringParser } from "./StringParser";
 import { XmlAttributeParser } from "./XmlAttributeParser";
 import { XmlAttributes } from "./Types";
 
@@ -8,11 +8,8 @@ export class XmlAttributesParser {
   public parse(data: StringParser): XmlAttributes | undefined {
     let attributes: XmlAttributes | undefined;
 
-    while (!data.isEnd()) {
-      data.moveToNextNonWhitespaceChar();
-      if (data.isSlash() || data.isGreaterThan()) {
-        break;
-      }
+    data.moveToNextNonWhitespaceChar();
+    while (!data.isEnd() && !data.isCurrentCharCode(CharCode.Slash) && !data.isCurrentCharCode(CharCode.GreaterThan)) {
       const { name, value } = this.attributeParser.parse(data);
       if (!attributes) {
         attributes = {
@@ -21,6 +18,7 @@ export class XmlAttributesParser {
       } else {
         attributes[name] = value;
       }
+      data.moveToNextNonWhitespaceChar();
     }
 
     return attributes;
