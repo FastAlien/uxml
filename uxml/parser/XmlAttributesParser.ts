@@ -6,10 +6,13 @@ export class XmlAttributesParser {
   private attributeParser = new XmlAttributeParser();
 
   public parse(data: StringParser): XmlAttributes | undefined {
-    data.moveToNextNonWhitespaceChar();
     let attributes: XmlAttributes | undefined;
 
-    while (!data.isEnd() && data.isCurrentNotOneOf("/>")) {
+    while (!data.isEnd()) {
+      data.moveToNextNonWhitespaceChar();
+      if (data.isSlash() || data.isGreaterThan()) {
+        break;
+      }
       const { name, value } = this.attributeParser.parse(data);
       if (!attributes) {
         attributes = {
@@ -18,7 +21,6 @@ export class XmlAttributesParser {
       } else {
         attributes[name] = value;
       }
-      data.moveToNextNonWhitespaceChar();
     }
 
     return attributes;

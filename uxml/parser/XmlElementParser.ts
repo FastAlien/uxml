@@ -12,7 +12,7 @@ export class XmlElementParser {
 
     while (!data.isEnd()) {
       data.moveToNextNonWhitespaceChar();
-      if (!data.match("<")) {
+      if (!data.isLessThan()) {
         if (this.elements.length === 0) {
           throw new ParseError("Begin of XML element not found", data.position);
         }
@@ -20,10 +20,9 @@ export class XmlElementParser {
         continue;
       }
 
-      const next = data.getNext();
-      if (next === "!") {
+      if (data.isExclamationMarkNext()) {
         this.skipComment(data);
-      } else if (next === "/") {
+      } else if (data.isSlashNext()) {
         this.parseClosingTag(data);
         const element = this.elements.pop();
         if (!element) {
@@ -40,7 +39,7 @@ export class XmlElementParser {
           attributes: this.attributesParser.parse(data)
         };
 
-        if (data.match(">")) {
+        if (data.isGreaterThan()) {
           data.advance();
           this.elements.push(element);
         } else if (data.match("/>")) {
