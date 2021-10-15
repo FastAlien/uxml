@@ -3,7 +3,7 @@ import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "uxml/common/S
 export { NOT_FOUND };
 
 export class StringParser {
-  private static readonly whitespaceChars = " \t\n\r";
+  private static readonly minWhitespaceCharCode = 32;
   private readonly data: string;
   private position_ = 0;
 
@@ -44,21 +44,15 @@ export class StringParser {
   }
 
   public isWhitespaceAt(position: number): boolean {
-    const char = this.getCharAt(position);
-
-    for (let i = 0; i < StringParser.whitespaceChars.length; i++) {
-      if (char === StringParser.whitespaceChars.charAt(i)) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.data.charCodeAt(position) <= StringParser.minWhitespaceCharCode;
   }
 
   public moveToNextNonWhitespaceChar(): void {
-    const nonWhitespacePosition = findFirstNotOf(this.data, StringParser.whitespaceChars, this.position);
-    if (nonWhitespacePosition !== NOT_FOUND) {
-      this.moveTo(nonWhitespacePosition);
+    for (let i = this.position; i < this.data.length; i++) {
+      if (!this.isWhitespaceAt(i)) {
+        this.moveTo(i);
+        return;
+      }
     }
   }
 
