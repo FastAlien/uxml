@@ -20,13 +20,9 @@ export class XmlAttributeParser {
   }
 
   private parseAttributeName(data: StringParser): string {
-    const endOfNamePosition = data.findFirstOf("= \t");
+    const endOfNamePosition = data.findFirst("=");
     if (endOfNamePosition === NOT_FOUND) {
       throw new ParseError("Invalid attribute format", data.position);
-    }
-
-    if (data.getCharAt(endOfNamePosition) !== "=") {
-      throw new ParseError("Unexpected character in attribute name", endOfNamePosition);
     }
 
     const attributeName = data.substring(endOfNamePosition);
