@@ -24,6 +24,7 @@
   "scripts": {
     "build": "tsc --build",
     "test": "jest uxml",
-    "benchmark:simple": "yarn workspace uxml-benchmark run-simple"
+    "benchmark:simple": "yarn workspace uxml-benchmark run-simple",
+    "benchmark:dash-manifest": "yarn workspace uxml-benchmark run-dash-manifest"
   }
 }
