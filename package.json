@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "uxml:build": "yarn workspace uxml build",
+    "uxml:test": "yarn workspace uxml test",
     "benchmark:simple": "yarn workspace uxml-benchmark run-simple"
   }
 }
