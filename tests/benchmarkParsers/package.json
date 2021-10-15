@@ -1,0 +1,19 @@
+{
+  "name": "test-benchmark-parsers",
+  "version": "0.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "fast-xml-parser": "^3.19.0",
+    "txml": "^4.0.1",
+    "xml2js": "^0.4.23",
+    "uxml": "0.0.0"
+  },
+  "devDependencies": {
+    "@types/benchmark": "^2.1.0",
+    "@types/xml2js": "^0.4.8"
+  },
+  "scripts": {
+    "benchmark": "ts-node index.ts"
+  }
+}

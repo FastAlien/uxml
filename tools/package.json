@@ -1,22 +1,10 @@
 {
-  "name": "uxml-benchmark",
+  "name": "tools",
   "version": "0.0.0",
   "license": "MIT",
-  "dependencies": {
-    "benchmark": "^2.1.4",
-    "fast-xml-parser": "^3.19.0",
-    "txml": "^4.0.1",
-    "xml2js": "^0.4.23",
-    "uxml": "0.0.0"
-  },
-  "devDependencies": {
-    "@types/benchmark": "^2.1.0",
-    "@types/xml2js": "^0.4.8"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
-    "run-simple": "ts-node benchmark.ts data/Simple.xml",
-    "run-dash-manifest": "ts-node benchmark.ts data/DashManifest.xml",
-    "parse": "ts-node parse.ts",
-    "profile": "node -r ts-node/register --prof --no-logfile-per-isolate benchmark.ts data/Simple.xml && node --prof-process v8.log > benchmark-simple.v8log.txt"
+    "parse": "ts-node parse.ts"
   }
 }
