@@ -1,6 +1,9 @@
-import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "uxml/common/StringUtils";
+export const NOT_FOUND = -1;
 
-export { NOT_FOUND };
+enum CharCode {
+  Slash = 47,
+  GreaterThan = 62,
+}
 
 export class StringParser {
   private static readonly minWhitespaceCharCode = 32;
@@ -16,44 +19,51 @@ export class StringParser {
   }
 
   public advance(): void {
-    this.moveTo(this.position + 1);
+    this.moveTo(this.position_ + 1);
   }
 
   public moveBy(chars: number): void {
-    this.moveTo(this.position + chars);
+    this.moveTo(this.position_ + chars);
   }
 
   public moveTo(position: number): void {
-    this.position_ = Math.max(0, Math.min(position, this.data.length));
+    if (position < 0) {
+      this.position_ = 0;
+    } else if (position > this.data.length) {
+      this.position_ = this.data.length;
+    } else {
+      this.position_ = position;
+    }
   }
 
   public getCurrent(): string {
-    return this.data.charAt(this.position);
-  }
-
-  public getCharAt(position: number): string {
-    return this.data.charAt(position);
+    return this.data.charAt(this.position_);
   }
 
   public getNext(): string {
-    return this.data.charAt(this.position + 1);
+    return this.data.charAt(this.position_ + 1);
   }
 
   public isEnd(): boolean {
     return this.position_ === this.data.length;
   }
 
-  public isWhitespaceAt(position: number): boolean {
-    return this.data.charCodeAt(position) <= StringParser.minWhitespaceCharCode;
-  }
-
   public moveToNextNonWhitespaceChar(): void {
-    for (let i = this.position; i < this.data.length; i++) {
+    for (let i = this.position_; i < this.data.length; i++) {
       if (!this.isWhitespaceAt(i)) {
         this.moveTo(i);
         return;
       }
     }
+    this.moveTo(this.data.length);
+  }
+
+  private isWhitespaceAt(position: number): boolean {
+    return this.isWhiteSpaceCharCode(this.data.charCodeAt(position));
+  }
+
+  private isWhiteSpaceCharCode(charCode: number): boolean {
+    return charCode <= StringParser.minWhitespaceCharCode;
   }
 
   public match(search: string): boolean {
@@ -62,11 +72,11 @@ export class StringParser {
     }
 
     if (search.length === 1) {
-      return this.getCurrent() === search;
+      return this.data.charAt(this.position_) === search;
     }
 
     for (let i = 0; i < search.length; i++) {
-      if (this.getCharAt(this.position + i) !== search.charAt(i)) {
+      if (this.data.charCodeAt(this.position_ + i) !== search.charCodeAt(i)) {
         return false;
       }
     }
@@ -75,18 +85,32 @@ export class StringParser {
   }
 
   public findFirst(search: string): number {
-    return findFirst(this.data, search, this.position);
+    return this.data.indexOf(search, this.position_);
   }
 
-  public findFirstOf(search: string): number {
-    return findFirstOf(this.data, search, this.position);
-  }
-
-  public findFirstNotOf(search: string): number {
-    return findFirstNotOf(this.data, search, this.position);
+  public findFirstWhitespaceOrTagClosing(): number {
+    for (let i = this.position_; i < this.data.length; i++) {
+      const charCode = this.data.charCodeAt(i);
+      if (this.isWhiteSpaceCharCode(charCode) ||
+        charCode === CharCode.Slash ||
+        charCode === CharCode.GreaterThan) {
+        return i;
+      }
+    }
+    return NOT_FOUND;
   }
 
   public substring(end: number): string {
-    return this.data.substring(this.position, end);
+    return this.data.substring(this.position_, end);
+  }
+
+  public extractText(end: number): string {
+    let endOfText: number;
+    for (endOfText = end - 1; endOfText > this.position_; endOfText--) {
+      if (!this.isWhitespaceAt(endOfText)) {
+        break;
+      }
+    }
+    return this.substring(endOfText + 1);
   }
 }
