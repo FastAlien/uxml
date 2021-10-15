@@ -3,6 +3,7 @@ import { NOT_FOUND, findFirst, findFirstNotOf, findFirstOf } from "common/String
 export { NOT_FOUND } from "common/StringUtils";
 
 export class StringParser {
+  private static readonly whitespaceChars = " \t\n\r";
   private readonly data: string;
   private position_ = 0;
 
@@ -42,8 +43,20 @@ export class StringParser {
     return this.position_ === this.data.length;
   }
 
+  public isWhitespaceAt(position: number): boolean {
+    const char = this.getCharAt(position);
+
+    for (let i = 0; i < StringParser.whitespaceChars.length; i++) {
+      if (char === StringParser.whitespaceChars.charAt(i)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public moveToNextNonWhitespaceChar(): void {
-    const nonWhitespacePosition = findFirstNotOf(this.data, " \t\n\r", this.position);
+    const nonWhitespacePosition = findFirstNotOf(this.data, StringParser.whitespaceChars, this.position);
     if (nonWhitespacePosition !== NOT_FOUND) {
       this.moveTo(nonWhitespacePosition);
     }
