@@ -1,6 +1,6 @@
-import { StringParser } from "parser/StringParser";
-import { XmlDeclaration } from "parser/Types";
-import { XmlDeclarationParser } from "parser/XmlDeclarationParser";
+import { StringParser } from "uxml/parser/StringParser";
+import { XmlDeclaration } from "uxml/parser/Types";
+import { XmlDeclarationParser } from "uxml/parser/XmlDeclarationParser";
 
 test("should parse XML with version only", () => {
   const parser = new XmlDeclarationParser();

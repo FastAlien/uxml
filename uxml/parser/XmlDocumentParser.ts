@@ -1,6 +1,6 @@
-import { StringParser } from "parser/StringParser";
-import { XmlDeclarationParser } from "parser/XmlDeclarationParser";
-import { XmlDocument } from "parser/Types";
+import { StringParser } from "uxml/parser/StringParser";
+import { XmlDeclarationParser } from "uxml/parser/XmlDeclarationParser";
+import { XmlDocument } from "uxml/parser/Types";
 import { XmlElementParser } from "./XmlElementParser";
 
 export class XmlDocumentParser {

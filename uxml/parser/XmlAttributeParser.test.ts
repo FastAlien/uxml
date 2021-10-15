@@ -1,7 +1,7 @@
-import { ParseError } from "parser/ParseError";
-import { StringParser } from "parser/StringParser";
-import { XmlAttribute } from "parser/Types";
-import { XmlAttributeParser } from "parser/XmlAttributeParser";
+import { ParseError } from "uxml/parser/ParseError";
+import { StringParser } from "uxml/parser/StringParser";
+import { XmlAttribute } from "uxml/parser/Types";
+import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
 
 test("should parse valid attribute without whitespace characters", () => {
   const parser = new XmlAttributeParser();

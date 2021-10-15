@@ -1,7 +1,7 @@
-import { ParseError } from "parser/ParseError";
-import { StringParser } from "parser/StringParser";
-import { XmlAttributeParser } from "parser/XmlAttributeParser";
-import { XmlDeclaration } from "parser/Types";
+import { ParseError } from "uxml/parser/ParseError";
+import { StringParser } from "uxml/parser/StringParser";
+import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
+import { XmlDeclaration } from "uxml/parser/Types";
 
 const xmlDeclarationBegin = "<?xml";
 const xmlDeclarationEnd = "?>";
