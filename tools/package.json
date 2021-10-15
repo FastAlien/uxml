@@ -15,6 +15,7 @@
   },
   "scripts": {
     "run-simple": "ts-node benchmark.ts data/Simple.xml",
-    "run-dash-manifest": "ts-node benchmark.ts data/DashManifest.xml"
+    "run-dash-manifest": "ts-node benchmark.ts data/DashManifest.xml",
+    "parse": "ts-node parse.ts"
   }
 }
