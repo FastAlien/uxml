@@ -17,3 +17,7 @@ export interface XmlElement {
 
 export type XmlAttributes = Record<string, string>;
 export type XmlNode = XmlElement | string;
+
+export interface XmlDocument extends XmlDeclaration {
+  root: XmlElement;
+}
