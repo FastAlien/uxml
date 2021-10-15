@@ -1,4 +1,4 @@
-import { Event, Suite, Target } from "benchmark";
+import { Event, Suite } from "benchmark";
 import { Parser as Xml2JsParser } from "xml2js";
 import { XmlDocumentParser } from "uxml";
 import { parse as fastXmlParse } from "fast-xml-parser";
@@ -42,10 +42,8 @@ try {
       console.log("Error in Suite: ", error);
     },
     onAbort: () => console.log("Aborting Suite"),
-    onComplete: () => {
-      suite.forEach((target: Target) => {
-        console.log(`${target.name} : ${target.hz} requests/second`);
-      });
+    onCycle: (event: Event) => {
+      console.log(String(event.target));
     }
   });
 
