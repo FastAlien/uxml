@@ -1,6 +1,7 @@
 {
-  "name": "test-benchmark-parsers",
+  "name": "uxml-benchmark-tool",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "benchmark": "^2.1.4",
@@ -14,6 +15,6 @@
     "@types/xml2js": "^0.4.8"
   },
   "scripts": {
-    "benchmark": "ts-node index.ts"
+    "compare-parsers": "ts-node compareParsers/index.ts"
   }
 }

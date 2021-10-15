@@ -1,10 +1,11 @@
 {
-  "name": "tools",
+  "name": "uxml-xml-to-json-tool",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "parse": "ts-node parse.ts"
+    "dump": "ts-node index.ts"
   }
 }

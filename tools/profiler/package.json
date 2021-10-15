@@ -1,0 +1,16 @@
+{
+  "name": "uxml-profiler-tool",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "uxml": "0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "init": "mkdir -p logs",
+    "clean": "rm -rf logs/*",
+    "profile-simple": "yarn run init && node -r ts-node/register --prof --no-logfile-per-isolate index.ts ../../data/Simple.xml 100000 && node --prof-process v8.log > logs/profiling-simple.txt",
+    "profile-dash-manifest": "yarn run init && node -r ts-node/register --prof --no-logfile-per-isolate index.ts ../../data/DashManifest.xml 100000 && node --prof-process v8.log > logs/profiling-dash-manifest.txt"
+  }
+}
