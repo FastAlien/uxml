@@ -19,7 +19,7 @@
   },
   "workspaces": [
     "uxml",
-    "uxml-benchmark"
+    "tools"
   ],
   "scripts": {
     "build": "tsc --build",
