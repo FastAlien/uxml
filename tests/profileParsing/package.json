@@ -1,0 +1,12 @@
+{
+  "name": "test-profile-parsing",
+  "version": "0.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "uxml": "0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "profile": "node -r ts-node/register --prof --no-logfile-per-isolate index.ts ../data/Simple.xml 100000 && node --prof-process v8.log > benchmark-simple.v8log.txt"
+  }
+}
