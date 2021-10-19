@@ -7,13 +7,13 @@ const xmlDeclarationBegin = "<?xml";
 const xmlDeclarationEnd = "?>";
 const defaultVersion = "1.0";
 
-enum AttributeNames {
+enum AttributeName {
   Version = "version",
   Encoding = "encoding",
   Standalone = "standalone"
 }
 
-type ParsedAttributes = Record<AttributeNames | string, string | undefined>;
+type ParsedAttributes = Record<AttributeName | string, string | undefined>;
 
 export class XmlDeclarationParser {
   private attributeParser = new XmlAttributeParser();
@@ -35,9 +35,9 @@ export class XmlDeclarationParser {
 
     data.moveBy(xmlDeclarationEnd.length);
     return {
-      version: attributes[AttributeNames.Version] ?? defaultVersion,
-      encoding: attributes[AttributeNames.Encoding],
-      standalone: attributes[AttributeNames.Standalone]
+      version: attributes[AttributeName.Version] ?? defaultVersion,
+      encoding: attributes[AttributeName.Encoding],
+      standalone: attributes[AttributeName.Standalone]
     };
   }
 
