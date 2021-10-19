@@ -10,5 +10,8 @@ dist
 # VS Code
 .vscode
 
+# Jest
+uxml/coverage
+
 # other
 yarn-error.log
