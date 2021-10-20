@@ -6,7 +6,7 @@ const xmlDeclaration: XmlDeclaration = {
   version: "1.0"
 };
 
-test("should parse XML with root tag only", () => {
+it("should parse XML with root tag only", () => {
   const parser = new XmlDocumentParser();
   const expected: XmlDocument = {
     ...xmlDeclaration,
@@ -20,7 +20,7 @@ test("should parse XML with root tag only", () => {
     .toEqual(expected);
 });
 
-test("should parse XML with root tag only", () => {
+it("should parse XML with root tag only", () => {
   const parser = new XmlDocumentParser();
   const expected: XmlDocument = {
     ...xmlDeclaration,

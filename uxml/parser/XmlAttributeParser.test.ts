@@ -3,7 +3,7 @@ import { StringParser } from "uxml/parser/StringParser";
 import { XmlAttribute } from "uxml/parser/Types";
 import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
 
-test("should parse valid attribute without whitespace characters", () => {
+it("should parse valid attribute without whitespace characters", () => {
   const parser = new XmlAttributeParser();
   const expected: XmlAttribute = {
     name: "encoding",
@@ -16,7 +16,7 @@ test("should parse valid attribute without whitespace characters", () => {
     .toStrictEqual(expected);
 });
 
-test("should parse valid attribute with whitespace characters", () => {
+it("should parse valid attribute with whitespace characters", () => {
   const parser = new XmlAttributeParser();
   const expected: XmlAttribute = {
     name: "encoding",
@@ -29,7 +29,7 @@ test("should parse valid attribute with whitespace characters", () => {
     .toStrictEqual(expected);
 });
 
-test("should parse valid attribute with whitespace characters in value", () => {
+it("should parse valid attribute with whitespace characters in value", () => {
   const parser = new XmlAttributeParser();
   const expected: XmlAttribute = {
     name: "encodings",
@@ -42,7 +42,7 @@ test("should parse valid attribute with whitespace characters in value", () => {
     .toStrictEqual(expected);
 });
 
-test("should parse valid attribute with long value", () => {
+it("should parse valid attribute with long value", () => {
   const parser = new XmlAttributeParser();
   const expected: XmlAttribute = {
     name: "message",
@@ -53,7 +53,7 @@ test("should parse valid attribute with long value", () => {
     .toStrictEqual(expected);
 });
 
-test("should parse valid attribute with quotation mark in value", () => {
+it("should parse valid attribute with quotation mark in value", () => {
   const parser = new XmlAttributeParser();
   expect(parser.parse(new StringParser("encodings=\"'utf-8'\"")))
     .toStrictEqual({
@@ -67,7 +67,7 @@ test("should parse valid attribute with quotation mark in value", () => {
     });
 });
 
-test("should throw error if attribute value has missing quotation marks", () => {
+it("should throw error if attribute value has missing quotation marks", () => {
   const parser = new XmlAttributeParser();
 
   expect(() => parser.parse(new StringParser("encoding=utf-8")))

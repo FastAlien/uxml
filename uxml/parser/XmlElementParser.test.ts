@@ -2,7 +2,7 @@ import { StringParser } from "./StringParser";
 import { XmlElement } from "./Types";
 import { XmlElementParser } from "./XmlElementParser";
 
-test("should parse XML element without attributes and children", () => {
+it("should parse XML element without attributes and children", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person"
@@ -20,7 +20,7 @@ test("should parse XML element without attributes and children", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with one attribute and no children", () => {
+it("should parse XML element with one attribute and no children", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
@@ -37,7 +37,7 @@ test("should parse XML element with one attribute and no children", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with attributes and no children", () => {
+it("should parse XML element with attributes and no children", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
@@ -56,7 +56,7 @@ test("should parse XML element with attributes and no children", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with one child and no attributes", () => {
+it("should parse XML element with one child and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "People",
@@ -73,7 +73,7 @@ test("should parse XML element with one child and no attributes", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with children and no attributes", () => {
+it("should parse XML element with children and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "People",
@@ -92,7 +92,7 @@ test("should parse XML element with children and no attributes", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with nested children and no attributes", () => {
+it("should parse XML element with nested children and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Root",
@@ -117,7 +117,7 @@ test("should parse XML element with nested children and no attributes", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with one text node child", () => {
+it("should parse XML element with one text node child", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
@@ -139,7 +139,7 @@ test("should parse XML element with one text node child", () => {
     .toEqual(expected);
 });
 
-test("should parse XML element with comments", () => {
+it("should parse XML element with comments", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",

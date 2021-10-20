@@ -2,7 +2,7 @@ import { StringParser } from "uxml/parser/StringParser";
 import { XmlDeclaration } from "uxml/parser/Types";
 import { XmlDeclarationParser } from "uxml/parser/XmlDeclarationParser";
 
-test("should parse XML with version only", () => {
+it("should parse XML with version only", () => {
   const parser = new XmlDeclarationParser();
   const expected: XmlDeclaration = {
     version: "1.0"
@@ -11,7 +11,7 @@ test("should parse XML with version only", () => {
     .toEqual(expected);
 });
 
-test("should parse XML with version and encoding", () => {
+it("should parse XML with version and encoding", () => {
   const parser = new XmlDeclarationParser();
   const expected: XmlDeclaration = {
     version: "1.0",
@@ -21,7 +21,7 @@ test("should parse XML with version and encoding", () => {
     .toEqual(expected);
 });
 
-test("should parse XML with version, encoding and standalone", () => {
+it("should parse XML with version, encoding and standalone", () => {
   const parser = new XmlDeclarationParser();
   const expected: XmlDeclaration = {
     version: "1.0",
