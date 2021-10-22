@@ -1,7 +1,6 @@
 # uXML
 
-uXML is an XML parser written in TypeScript. The main purpose of this project is to create
-the fastest XML parser written in JavaScript.
+uXML is an XML parser written in TypeScript with high performance in mind.
 
 **It's currently in early development phase, so I don't recommend using it in production
 environment.**
