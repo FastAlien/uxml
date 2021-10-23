@@ -36,6 +36,23 @@ describe("moveTo", () => {
   });
 });
 
+describe("isEnd", () => {
+  it("should return false if position is less than string length", () => {
+    const parser = new StringParser("test");
+    expect(parser.isEnd()).toBeFalsy();
+    parser.moveTo(1);
+    expect(parser.isEnd()).toBeFalsy();
+    parser.moveTo(3);
+    expect(parser.isEnd()).toBeFalsy();
+  });
+
+  it("should return true if position is equal to string length", () => {
+    const parser = new StringParser("test");
+    parser.moveTo(4);
+    expect(parser.isEnd()).toBeTruthy();
+  });
+});
+
 describe("findFirst", () => {
   it("should return NOT_FOUND (-1) if character was not found", () => {
     expect(new StringParser("b").findFirst("z")).toBe(NOT_FOUND);
