@@ -2,9 +2,11 @@ import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
 import { XmlElement, XmlNode } from "uxml/parser/Types";
 import { ParseError } from "uxml/parser/ParseError";
 import { XmlAttributesParser } from "./XmlAttributesParser";
+import { XmlTextNodeParser } from "./XmlTextNodeParser";
 
 export class XmlElementParser {
   private attributesParser = new XmlAttributesParser();
+  private textNodeParser = new XmlTextNodeParser();
   private elements: XmlElement[] = [];
 
   public parse(data: StringParser): XmlElement {
@@ -41,13 +43,8 @@ export class XmlElementParser {
     if (this.elements.length === 0) {
       throw new ParseError("Begin of XML element not found", data.position);
     }
-    const nextTagBegin = data.findFirst("<");
-    if (nextTagBegin === NOT_FOUND) {
-      throw new ParseError("Incomplete text node", data.position);
-    }
-    const text = data.extractText(nextTagBegin);
+    const text = this.textNodeParser.parse(data);
     this.addChildToLastElement(text);
-    data.moveTo(nextTagBegin);
   }
 
   private addElement(element: XmlElement): void {
