@@ -88,3 +88,27 @@ it("should throw error if attribute value has missing quotation marks", () => {
   expect(() => parser.parse(new StringParser("encoding=utf-8'")))
     .toThrow(ParseError);
 });
+
+it("should throw ParseError if attribute does not contain equal sign", () => {
+  const parser = new XmlAttributeParser();
+
+  expect(() => parser.parse(new StringParser("encoding")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser("encoding/\"utf-8\"")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser("encoding+\"utf-8\"")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser("encoding#\"utf-8\"")))
+    .toThrow(ParseError);
+});
+
+it("should throw ParseError if attribute name is empty", () => {
+  const parser = new XmlAttributeParser();
+
+  expect(() => parser.parse(new StringParser("=utf-8")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser(" =utf-8")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser(" \t\n\r=utf-8")))
+    .toThrow(ParseError);
+});
