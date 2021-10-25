@@ -106,7 +106,7 @@ export class StringParser {
 
   public extractText(end: number): string {
     let endOfText: number;
-    for (endOfText = end - 1; endOfText > this.position_; endOfText--) {
+    for (endOfText = end - 1; endOfText >= this.position_; endOfText--) {
       if (!this.isWhitespaceAt(endOfText)) {
         break;
       }
