@@ -5,7 +5,7 @@ export class XmlTextNodeParser {
   public parse(data: StringParser): string {
     const nextTagBegin = data.findFirst("<");
     if (nextTagBegin === NOT_FOUND) {
-      throw new ParseError("Incomplete text node", data.position);
+      throw new ParseError("Unclosed text node", data.position);
     }
     const text = data.extractText(nextTagBegin);
     data.moveTo(nextTagBegin);
