@@ -160,3 +160,22 @@ it("should parse XML element with comments", () => {
   expect(parser.parse(new StringParser("<!--\nComment\nline\n-->\n<Person><!--\nComment\nline\n-->\n  <Name>John Smith Johnson</Name>\n</Person>")))
     .toEqual(expected);
 });
+
+it("should parse XML element with one text node child containing CDATA section", () => {
+  const parser = new XmlElementParser();
+  const text = "\n<Person>\n\tJohn Smith Johnson\n</Person>\n";
+  const expected: XmlElement = {
+    tagName: "Person",
+    children: [
+      {
+        tagName: "Name",
+        children: [
+          text
+        ]
+      }
+    ]
+  };
+
+  expect(parser.parse(new StringParser(`<Person><Name><![CDATA[${text}]]></Name></Person>`)))
+    .toEqual(expected);
+});
