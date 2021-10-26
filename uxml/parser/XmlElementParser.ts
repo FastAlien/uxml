@@ -2,13 +2,13 @@ import { NOT_FOUND, StringParser } from "uxml/parser/StringParser";
 import { XmlElement, XmlNode } from "uxml/parser/Types";
 import { ParseError } from "uxml/parser/ParseError";
 import { XmlAttributesParser } from "./XmlAttributesParser";
-import { XmlCDATASectionParser } from "./XmlCDATASectionParser";
 import { XmlTextNodeParser } from "./XmlTextNodeParser";
 
 export class XmlElementParser {
+  private static readonly commentStart = "<!--";
+  private static readonly commentEnd = "-->";
   private attributesParser = new XmlAttributesParser();
   private textNodeParser = new XmlTextNodeParser();
-  private cdataSectionParser = new XmlCDATASectionParser();
   private elements: XmlElement[] = [];
 
   public parse(data: StringParser): XmlElement {
@@ -116,25 +116,20 @@ export class XmlElementParser {
   }
 
   private parseCommentOrCDataSection(data: StringParser) {
-    const begin = data.position;
-    data.moveBy(2);
-    if (data.match("--")) {
-      data.moveBy(2);
-      this.skipComment(data, begin);
-    } else if (data.match("[CDATA[")) {
-      data.moveBy(7);
-      const text = this.cdataSectionParser.parse(data);
-      this.addChildToLastElement(text);
+    if (data.match(XmlElementParser.commentStart)) {
+      this.skipComment(data);
     } else {
-      throw new ParseError("Invalid tag name", begin);
+      this.parseTextNode(data);
     }
   }
 
-  private skipComment(data: StringParser, begin: number) {
-    const end = data.findFirst("-->");
+  private skipComment(data: StringParser) {
+    const begin = data.position;
+    data.moveBy(XmlElementParser.commentStart.length);
+    const end = data.findFirst(XmlElementParser.commentEnd);
     if (end === NOT_FOUND) {
       throw new ParseError("Unclosed comment", begin);
     }
-    data.moveTo(end + 3);
+    data.moveTo(end + XmlElementParser.commentEnd.length);
   }
 }
