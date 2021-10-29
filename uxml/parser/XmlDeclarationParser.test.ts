@@ -2,6 +2,14 @@ import { StringParser } from "uxml/parser/StringParser";
 import { XmlDeclaration } from "uxml/parser/Types";
 import { XmlDeclarationParser } from "uxml/parser/XmlDeclarationParser";
 
+it("should return version 1.0 if XML doesn't contain declaration", () => {
+  const parser = new XmlDeclarationParser();
+  expect(parser.parse(new StringParser("")))
+    .toEqual<XmlDeclaration>({
+      version: "1.0"
+    });
+});
+
 it("should parse XML with version only", () => {
   const parser = new XmlDeclarationParser();
   expect(parser.parse(new StringParser("<?xml version=\"1.0\"?>")))

@@ -22,7 +22,9 @@ export class XmlDeclarationParser {
     data.moveToNextNonWhitespaceChar();
 
     if (!data.match(xmlDeclarationBegin)) {
-      throw new ParseError("XML declaration not found", data.position);
+      return {
+        version: defaultVersion
+      };
     }
 
     data.moveBy(xmlDeclarationBegin.length);
