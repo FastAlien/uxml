@@ -51,7 +51,7 @@ export class XmlDeclarationParser {
   private parseAttributes(data: StringParser): ParsedAttributes {
     const attributes: ParsedAttributes = {};
 
-    while (!data.isEnd() && !data.match(xmlDeclarationEnd)) {
+    while (!data.isEnd() && data.getCurrent() !== "?") {
       const { name, value } = this.attributeParser.parse(data);
       attributes[name] = value;
       data.moveToNextNonWhitespaceChar();
