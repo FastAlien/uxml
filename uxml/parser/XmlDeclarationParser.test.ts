@@ -13,6 +13,14 @@ it("should return version 1.0 if XML doesn't contain declaration", () => {
     .toEqual<XmlDeclaration>(defaultXmlDeclaration);
 });
 
+it("should throw ParseError if XML declaration doesn't have version attribute", () => {
+  const parser = new XmlDeclarationParser();
+  expect(() => parser.parse(new StringParser("<?xml?>")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser("<?xml ?>")))
+    .toThrow(ParseError);
+});
+
 it("should throw ParseError if XML declaration is not ended properly", () => {
   const parser = new XmlDeclarationParser();
   expect(() => parser.parse(new StringParser("<?xml")))

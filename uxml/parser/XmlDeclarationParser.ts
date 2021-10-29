@@ -35,9 +35,14 @@ export class XmlDeclarationParser {
       throw new ParseError("End of XML declaration not found", data.position);
     }
 
+    const version = attributes[AttributeName.Version];
+    if (!version) {
+      throw new ParseError("XML declaration doesn't have version attribute", data.position);
+    }
+
     data.moveBy(xmlDeclarationEnd.length);
     return {
-      version: attributes[AttributeName.Version] ?? defaultVersion,
+      version,
       encoding: attributes[AttributeName.Encoding],
       standalone: attributes[AttributeName.Standalone]
     };
