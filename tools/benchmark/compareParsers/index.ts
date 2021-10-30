@@ -34,9 +34,13 @@ if (option) {
 }
 
 try {
-  const xmlData = readFileSync(xmlFile, "utf-8");
+  const xml = readFileSync(xmlFile, "utf-8");
+  let xmlData: string;
   const suite = new Suite("XML parser benchmark", {
-    onStart: () => console.log("Running Suite"),
+    onStart: () => {
+      console.log("Running Suite");
+      xmlData = `${xml} `;
+    },
     onError: (event: Event) => {
       const error = (event.target as { error?: Error }).error;
       console.log("Error in Suite: ", error);
@@ -44,6 +48,7 @@ try {
     onAbort: () => console.log("Aborting Suite"),
     onCycle: (event: Event) => {
       console.log(String(event.target));
+      xmlData = `${xml} `;
     }
   });
 
