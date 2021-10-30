@@ -16,6 +16,7 @@
   },
   "scripts": {
     "compare-parsers": "ts-node compareParsers/index.ts",
-    "string-parser": "ts-node stringParser/index.ts"
+    "string-parser": "ts-node stringParser/index.ts",
+    "string:compare-part": "ts-node string/compareParts/index.ts"
   }
 }
