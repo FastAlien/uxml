@@ -3,10 +3,6 @@ import { StringParser } from "uxml/parser/StringParser";
 import { XmlAttributeParser } from "uxml/parser/XmlAttributeParser";
 import { XmlDeclaration } from "uxml/parser/Types";
 
-const xmlDeclarationBegin = "<?xml";
-const xmlDeclarationEnd = "?>";
-const defaultVersion = "1.0";
-
 enum AttributeName {
   Version = "version",
   Encoding = "encoding",
@@ -16,22 +12,25 @@ enum AttributeName {
 type ParsedAttributes = Record<AttributeName | string, string | undefined>;
 
 export class XmlDeclarationParser {
+  private static readonly xmlDeclarationBegin = "<?xml";
+  private static readonly xmlDeclarationEnd = "?>";
+  private static readonly defaultVersion = "1.0";
   private attributeParser = new XmlAttributeParser();
 
   public parse(data: StringParser): XmlDeclaration {
     data.moveToNextNonWhitespaceChar();
 
-    if (!data.match(xmlDeclarationBegin)) {
+    if (!data.match(XmlDeclarationParser.xmlDeclarationBegin)) {
       return {
-        version: defaultVersion
+        version: XmlDeclarationParser.defaultVersion
       };
     }
 
-    data.moveBy(xmlDeclarationBegin.length);
+    data.moveBy(XmlDeclarationParser.xmlDeclarationBegin.length);
     const attributes = this.parseAttributes(data);
 
     data.moveToNextNonWhitespaceChar();
-    if (!data.match(xmlDeclarationEnd)) {
+    if (!data.match(XmlDeclarationParser.xmlDeclarationEnd)) {
       throw new ParseError("End of XML declaration not found", data.position);
     }
 
@@ -40,7 +39,7 @@ export class XmlDeclarationParser {
       throw new ParseError("XML declaration doesn't have version attribute", data.position);
     }
 
-    data.moveBy(xmlDeclarationEnd.length);
+    data.moveBy(XmlDeclarationParser.xmlDeclarationEnd.length);
     return {
       version,
       encoding: attributes[AttributeName.Encoding],
