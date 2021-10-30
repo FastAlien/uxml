@@ -75,13 +75,7 @@ export class StringParser {
       return this.data.charAt(this.position_) === search;
     }
 
-    for (let i = 0; i < search.length; i++) {
-      if (this.data.charCodeAt(this.position_ + i) !== search.charCodeAt(i)) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.data.substring(this.position_, this.position_ + search.length) === search;
   }
 
   public findFirst(search: string): number {
