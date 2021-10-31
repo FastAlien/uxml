@@ -6,6 +6,7 @@ import { XmlCDATASectionParser } from "./XmlCDATASectionParser";
 import { XmlTextNodeParser } from "./XmlTextNodeParser";
 
 export class XmlElementParser {
+  private static readonly commentDelimiter = "-->";
   private attributesParser = new XmlAttributesParser();
   private textNodeParser = new XmlTextNodeParser();
   private cdataSectionParser = new XmlCDATASectionParser();
@@ -131,10 +132,10 @@ export class XmlElementParser {
   }
 
   private skipComment(data: StringParser, begin: number) {
-    const end = data.findFirst("-->");
+    const end = data.findFirst(XmlElementParser.commentDelimiter);
     if (end === NOT_FOUND) {
       throw new ParseError("Unclosed comment", begin);
     }
-    data.moveTo(end + 3);
+    data.moveTo(end + XmlElementParser.commentDelimiter.length);
   }
 }
