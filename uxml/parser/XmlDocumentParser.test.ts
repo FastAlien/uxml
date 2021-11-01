@@ -1,5 +1,6 @@
 import { XmlDeclaration, XmlDocument } from "uxml/parser/Types";
 import { XmlDocumentParser } from "uxml/parser/XmlDocumentParser";
+import { readFileSync } from "fs";
 
 const xmlDecl = "<?xml version=\"1.0\"?>\n";
 const xmlDeclaration: XmlDeclaration = {
@@ -30,4 +31,14 @@ it("should parse XML with root tag only", () => {
     .toEqual(xmlDocumentWithRootOnly);
   expect(parser.parse("<root></root>"))
     .toEqual(xmlDocumentWithRootOnly);
+});
+
+const dataPath = `${__dirname}/../../data`;
+
+it("should parse data/Simple.xml", () => {
+  const xml = readFileSync(`${dataPath}/Simple.xml`, "utf-8");
+  const expected: XmlDocument = JSON.parse(readFileSync(`${dataPath}/Simple.json`, "utf-8"));
+  const parser = new XmlDocumentParser();
+  expect(parser.parse(xml))
+    .toEqual(expected);
 });

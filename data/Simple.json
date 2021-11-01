@@ -1,0 +1,246 @@
+{
+  "version": "1.0",
+  "root": {
+    "tagName": "any_name",
+    "attributes": {
+      "attr": "https://example.com/somepath"
+    },
+    "children": [
+      {
+        "tagName": "person",
+        "attributes": {
+          "id": "101"
+        },
+        "children": [
+          {
+            "tagName": "phone",
+            "children": [
+              "+122233344550"
+            ]
+          },
+          {
+            "tagName": "name",
+            "children": [
+              "Jack"
+            ]
+          },
+          {
+            "tagName": "phone",
+            "children": [
+              "+122233344551"
+            ]
+          },
+          {
+            "tagName": "age",
+            "children": [
+              "33"
+            ]
+          },
+          {
+            "tagName": "emptyNode"
+          },
+          {
+            "tagName": "booleanNode",
+            "children": [
+              "false"
+            ]
+          },
+          {
+            "tagName": "booleanNode",
+            "children": [
+              "true"
+            ]
+          },
+          {
+            "tagName": "selfclosing"
+          },
+          {
+            "tagName": "selfclosing",
+            "attributes": {
+              "with": "value"
+            }
+          },
+          {
+            "tagName": "married",
+            "attributes": {
+              "firstTime": "No",
+              "attr": "val 2"
+            },
+            "children": [
+              "Yes"
+            ]
+          },
+          {
+            "tagName": "birthday",
+            "children": [
+              "Wed, 28 Mar 1979 12:13:14 +0300"
+            ]
+          },
+          {
+            "tagName": "address",
+            "children": [
+              {
+                "tagName": "city",
+                "children": [
+                  "New York"
+                ]
+              },
+              {
+                "tagName": "street",
+                "children": [
+                  "Park Ave"
+                ]
+              },
+              {
+                "tagName": "buildingNo",
+                "children": [
+                  "1"
+                ]
+              },
+              {
+                "tagName": "flatNo",
+                "children": [
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "tagName": "address",
+            "children": [
+              {
+                "tagName": "city",
+                "children": [
+                  "Boston"
+                ]
+              },
+              {
+                "tagName": "street",
+                "children": [
+                  "Centre St"
+                ]
+              },
+              {
+                "tagName": "buildingNo",
+                "children": [
+                  "33"
+                ]
+              },
+              {
+                "tagName": "flatNo",
+                "children": [
+                  "24"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tagName": "person",
+        "attributes": {
+          "id": "102"
+        },
+        "children": [
+          {
+            "tagName": "phone",
+            "children": [
+              "+122233344553"
+            ]
+          },
+          {
+            "tagName": "name",
+            "children": [
+              "Boris"
+            ]
+          },
+          {
+            "tagName": "phone",
+            "children": [
+              "+122233344554"
+            ]
+          },
+          {
+            "tagName": "age",
+            "children": [
+              "34"
+            ]
+          },
+          {
+            "tagName": "married",
+            "attributes": {
+              "firstTime": "Yes"
+            },
+            "children": [
+              "Yes"
+            ]
+          },
+          {
+            "tagName": "birthday",
+            "children": [
+              "Mon, 31 Aug 1970 02:03:04 +0300"
+            ]
+          },
+          {
+            "tagName": "address",
+            "children": [
+              {
+                "tagName": "city",
+                "children": [
+                  "Moscow"
+                ]
+              },
+              {
+                "tagName": "street",
+                "children": [
+                  "Kahovka"
+                ]
+              },
+              {
+                "tagName": "buildingNo",
+                "children": [
+                  "1"
+                ]
+              },
+              {
+                "tagName": "flatNo",
+                "children": [
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "tagName": "address",
+            "children": [
+              {
+                "tagName": "city",
+                "children": [
+                  "Tula"
+                ]
+              },
+              {
+                "tagName": "street",
+                "children": [
+                  "Lenina"
+                ]
+              },
+              {
+                "tagName": "buildingNo",
+                "children": [
+                  "3"
+                ]
+              },
+              {
+                "tagName": "flatNo",
+                "children": [
+                  "78"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
