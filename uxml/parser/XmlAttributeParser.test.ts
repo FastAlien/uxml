@@ -55,15 +55,26 @@ it("should parse valid attribute with long value", () => {
 
 it("should parse valid attribute with quotation mark in value", () => {
   const parser = new XmlAttributeParser();
-  expect(parser.parse(new StringParser("encodings=\"'utf-8'\"")))
+  expect(parser.parse(new StringParser("encoding=\"'utf-8'\"")))
     .toStrictEqual({
-      name: "encodings",
+      name: "encoding",
       value: "'utf-8'"
     });
-  expect(parser.parse(new StringParser("encodings='\"utf-8\"'")))
+  expect(parser.parse(new StringParser("encoding='\"utf-8\"'")))
     .toStrictEqual({
-      name: "encodings",
+      name: "encoding",
       value: "\"utf-8\""
+    });
+
+  expect(parser.parse(new StringParser("value=\"begin 'middle' end\"")))
+    .toStrictEqual({
+      name: "value",
+      value: "begin 'middle' end"
+    });
+  expect(parser.parse(new StringParser("value='begin \"middle\" end'")))
+    .toStrictEqual({
+      name: "value",
+      value: "begin \"middle\" end"
     });
 });
 
