@@ -1,3 +1,5 @@
+import { isWhitespaceCharCode } from "./StringUtils";
+
 export const NOT_FOUND = -1;
 
 enum CharCode {
@@ -6,7 +8,6 @@ enum CharCode {
 }
 
 export class StringParser {
-  private static readonly minWhitespaceCharCode = 32;
   private readonly data: string;
   private position_ = 0;
 
@@ -59,11 +60,7 @@ export class StringParser {
   }
 
   private isWhitespaceAt(position: number): boolean {
-    return this.isWhiteSpaceCharCode(this.data.charCodeAt(position));
-  }
-
-  private isWhiteSpaceCharCode(charCode: number): boolean {
-    return charCode <= StringParser.minWhitespaceCharCode;
+    return isWhitespaceCharCode(this.data.charCodeAt(position));
   }
 
   public match(search: string): boolean {
@@ -85,7 +82,7 @@ export class StringParser {
   public findFirstWhitespaceOrTagClosing(): number {
     for (let i = this.position_; i < this.data.length; i++) {
       const charCode = this.data.charCodeAt(i);
-      if (this.isWhiteSpaceCharCode(charCode) ||
+      if (isWhitespaceCharCode(charCode) ||
         charCode === CharCode.Slash ||
         charCode === CharCode.GreaterThan) {
         return i;
