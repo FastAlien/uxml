@@ -108,12 +108,16 @@ export class XmlElementParser {
     if (endPosition === NOT_FOUND) {
       throw new ParseError("Incomplete closing tag", beginPosition);
     }
-    data.moveTo(endPosition + 1);
     const element = this.elements.pop();
     if (!element) {
-      throw new Error("Unable to pop element from stack");
+      throw new ParseError("Unexpected closing tag", data.position);
+    }
+    const tagName = data.extractText(endPosition);
+    if (tagName !== element.tagName) {
+      throw new ParseError("Unexpected closing tag", data.position);
     }
     this.addElement(element);
+    data.moveTo(endPosition + 1);
   }
 
   private parseCommentOrCDataSection(data: StringParser) {

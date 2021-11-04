@@ -1,3 +1,4 @@
+import { ParseError } from "./ParseError";
 import { StringParser } from "./StringParser";
 import { XmlElement } from "./Types";
 import { XmlElementParser } from "./XmlElementParser";
@@ -178,4 +179,12 @@ it("should parse XML element with one text node child containing CDATA section",
 
   expect(parser.parse(new StringParser(`<Person><Name><![CDATA[${text}]]></Name></Person>`)))
     .toEqual(expected);
+});
+
+it("should throw ParseError if closing tag doesn't have matching begin tag", () => {
+  const parser = new XmlElementParser();
+  expect(() => parser.parse(new StringParser("</Person>")))
+    .toThrow(ParseError);
+  expect(() => parser.parse(new StringParser("<Person></Name></Person>")))
+    .toThrow(ParseError);
 });
