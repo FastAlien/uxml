@@ -15,17 +15,17 @@ export class XmlAttributeParser {
   }
 
   private parseAttributeName(data: StringParser): string {
-    const endOfNamePosition = data.findFirst("=");
-    if (endOfNamePosition === NOT_FOUND) {
+    const nameEndPosition = data.findFirst("=");
+    if (nameEndPosition === NOT_FOUND) {
       throw new ParseError("Invalid attribute format", data.position);
     }
 
-    const attributeName = data.substring(endOfNamePosition);
+    const attributeName = data.substring(nameEndPosition);
     if (!attributeName) {
       throw new ParseError("No attribute name", data.position);
     }
 
-    data.moveTo(endOfNamePosition);
+    data.moveTo(nameEndPosition);
     return attributeName;
   }
 
@@ -35,13 +35,13 @@ export class XmlAttributeParser {
       throw new ParseError("Start of attribute value not found", data.position);
     }
     data.advance();
-    const closingValueMarkPosition = data.findFirst(valueMark);
-    if (closingValueMarkPosition === NOT_FOUND) {
-      throw new ParseError("Closing mark for attribute value not found", data.position);
+    const valueEndPosition = data.findFirst(valueMark);
+    if (valueEndPosition === NOT_FOUND) {
+      throw new ParseError("End of attribute value not found", data.position);
     }
 
-    const value = data.substring(closingValueMarkPosition);
-    data.moveTo(closingValueMarkPosition + 1);
+    const value = data.substring(valueEndPosition);
+    data.moveTo(valueEndPosition + 1);
     return value;
   }
 }

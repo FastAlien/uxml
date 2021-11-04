@@ -5,16 +5,16 @@ export class XmlCDATASectionParser {
   private static readonly delimiter = "]]>";
 
   public parse(data: StringParser): string {
-    const begin = data.position;
-    const end = data.findFirst(XmlCDATASectionParser.delimiter);
-    if (end === NOT_FOUND) {
-      throw new ParseError("Unclosed CDATA section", begin);
+    const beginPosition = data.position;
+    const endPosition = data.findFirst(XmlCDATASectionParser.delimiter);
+    if (endPosition === NOT_FOUND) {
+      throw new ParseError("Unclosed CDATA section", beginPosition);
     }
-    const text = data.substring(end);
-    data.moveTo(end + XmlCDATASectionParser.delimiter.length);
+    const text = data.substring(endPosition);
+    data.moveTo(endPosition + XmlCDATASectionParser.delimiter.length);
     data.moveToNextNonWhitespaceChar();
     if (data.getCurrent() !== "<") {
-      throw new ParseError("Unclosed text node", begin);
+      throw new ParseError("Unclosed text node", endPosition);
     }
     return text;
   }
