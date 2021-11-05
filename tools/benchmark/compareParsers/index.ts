@@ -33,8 +33,16 @@ if (option) {
   }
 }
 
+enum TestName {
+  uxml = "uxml",
+  txml = "txml",
+  fastXmlParser = "fast-xml-parser",
+  xml2js = "xml2js"
+}
+
 try {
   const xml = readFileSync(xmlFile, "utf-8");
+  let uxmlHz = 0;
   let xmlData: string;
   const suite = new Suite("XML parser benchmark", {
     onStart: () => {
@@ -43,29 +51,37 @@ try {
     },
     onError: (event: Event) => {
       const error = (event.target as { error?: Error }).error;
-      console.log("Error in Suite: ", error);
+      console.error("Error in Suite: ", error);
     },
     onAbort: () => console.log("Aborting Suite"),
     onCycle: (event: Event) => {
-      console.log(String(event.target));
+      if (event.target.hz == null) {
+        console.error("Unable to read test results");
+        return;
+      }
+      if (event.target.name === TestName.uxml) {
+        uxmlHz = event.target.hz;
+      }
+      const percentOfUxmlResult = event.target.hz / uxmlHz * 100;
+      console.log(`${event.target}, ${percentOfUxmlResult.toFixed(2)}%`);
       xmlData = `${xml} `;
     }
   });
 
   const uxmlParser = new XmlDocumentParser();
-  suite.add("uxml", () => uxmlParser.parse(xmlData));
+  suite.add(TestName.uxml, () => uxmlParser.parse(xmlData));
 
   if (enabledBenchmarks.txml) {
-    suite.add("txml", () => txml.parse(xmlData));
+    suite.add(TestName.txml, () => txml.parse(xmlData));
   }
 
   if (enabledBenchmarks.fastXmlParser) {
-    suite.add("fast-xml-parser", () => fastXmlParse(xmlData));
+    suite.add(TestName.fastXmlParser, () => fastXmlParse(xmlData));
   }
 
   if (enabledBenchmarks.xml2js) {
     const xml2jsParser = new Xml2JsParser();
-    suite.add("xml2js", () => xml2jsParser.parseString(xmlData));
+    suite.add(TestName.xml2js, () => xml2jsParser.parseString(xmlData));
   }
 
   suite.run();
