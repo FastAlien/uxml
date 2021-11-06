@@ -120,7 +120,7 @@ export class XmlElementParser {
     data.moveTo(endPosition + 1);
   }
 
-  private parseCommentOrCDataSection(data: StringParser) {
+  private parseCommentOrCDataSection(data: StringParser): void {
     const beginPosition = data.position;
     data.moveBy(2);
     if (data.match("--")) {
@@ -135,7 +135,7 @@ export class XmlElementParser {
     }
   }
 
-  private skipComment(data: StringParser, begin: number) {
+  private skipComment(data: StringParser, begin: number): void {
     const commentDelimiterPosition = data.findFirst(XmlElementParser.commentDelimiter);
     if (commentDelimiterPosition === NOT_FOUND) {
       throw new ParseError("Unclosed comment", begin);
