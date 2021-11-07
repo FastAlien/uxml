@@ -70,3 +70,23 @@ describe("findFirst", () => {
     expect(new StringParser("bbbba").findFirst("a")).toBe(4);
   });
 });
+
+describe("match", () => {
+  const cdataSample = "<![CDATA[test]]>";
+
+  it("should return true if part of string match searched string", () => {
+    expect(new StringParser(cdataSample).match("<")).toBeTruthy();
+    expect(new StringParser(cdataSample).match("<!")).toBeTruthy();
+    expect(new StringParser(cdataSample).match("<![CDATA[")).toBeTruthy();
+  });
+
+  it("should return false if part of string doesn't match searched string", () => {
+    expect(new StringParser(cdataSample).match("!")).toBeFalsy();
+    expect(new StringParser(cdataSample).match("![")).toBeFalsy();
+    expect(new StringParser(cdataSample).match("![CDATA")).toBeFalsy();
+  });
+
+  it("should return false if character case doesn't match", () => {
+    expect(new StringParser(cdataSample).match("<![cdata")).toBeFalsy();
+  });
+});
