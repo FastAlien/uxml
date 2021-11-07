@@ -75,6 +75,18 @@ export class StringParser {
     return this.data.substring(this.position_, this.position_ + search.length) === search;
   }
 
+  public matchIgnoreCase(search: string): boolean {
+    if (search.length === 0) {
+      return false;
+    }
+
+    if (search.length === 1) {
+      return this.data.charAt(this.position_).toLowerCase() === search;
+    }
+
+    return this.data.substring(this.position_, this.position_ + search.length).toLowerCase() === search;
+  }
+
   public findFirst(search: string): number {
     return this.data.indexOf(search, this.position_);
   }

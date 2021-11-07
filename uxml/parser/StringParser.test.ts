@@ -90,3 +90,18 @@ describe("match", () => {
     expect(new StringParser(cdataSample).match("<![cdata")).toBeFalsy();
   });
 });
+
+describe("matchIgnoreCase", () => {
+  const cdataUpperCaseSample = "<![CDATA[test]]>";
+  const cdataLowerCaseSample = "<![cdata[test]]>";
+
+  it("should return true if part of string match searched string ignoring case", () => {
+    expect(new StringParser(cdataUpperCaseSample).matchIgnoreCase("<![cdata[")).toBeTruthy();
+    expect(new StringParser(cdataLowerCaseSample).matchIgnoreCase("<![cdata[")).toBeTruthy();
+  });
+
+  it("should return false if part of string doesn't match searched string ignoring case", () => {
+    expect(new StringParser(cdataUpperCaseSample).matchIgnoreCase("![cdata")).toBeFalsy();
+    expect(new StringParser(cdataLowerCaseSample).matchIgnoreCase("![cdata")).toBeFalsy();
+  });
+});
