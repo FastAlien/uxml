@@ -1,11 +1,7 @@
+import { CharCode } from "./CharCode";
 import { isWhitespaceCharCode } from "./StringUtils";
 
 export const NOT_FOUND = -1;
-
-enum CharCode {
-  Slash = 47,
-  GreaterThan = 62,
-}
 
 export class StringParser {
   private readonly data: string;
