@@ -126,7 +126,7 @@ export class XmlElementParser {
     if (data.match("--")) {
       data.moveBy(2);
       this.skipComment(data, beginPosition);
-    } else if (data.match("[CDATA[")) {
+    } else if (data.matchIgnoreCase("[cdata[")) {
       data.moveBy(7);
       const text = this.cdataSectionParser.parse(data);
       this.addChildToLastElement(text);

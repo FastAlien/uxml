@@ -179,6 +179,10 @@ it("should parse XML element with one text node child containing CDATA section",
 
   expect(parser.parse(new StringParser(`<Person><Name><![CDATA[${text}]]></Name></Person>`)))
     .toEqual(expected);
+  expect(parser.parse(new StringParser(`<Person><Name><![cdata[${text}]]></Name></Person>`)))
+    .toEqual(expected);
+  expect(parser.parse(new StringParser(`<Person><Name><![CData[${text}]]></Name></Person>`)))
+    .toEqual(expected);
 });
 
 it("should throw ParseError if closing tag doesn't have matching begin tag", () => {
