@@ -1,21 +1,11 @@
-import { Event, Suite } from "benchmark";
+import { BenchmarkSuite } from "../BenchmarkSuite";
 import { StringParser } from "../../../uxml/parser/StringParser";
 
 try {
   const data = "<!-- A test string used to benchmark StringParser -->";
   let parser: StringParser;
-  const suite = new Suite("StringParser", {
-    onStart: () => {
-      console.log("Running Suite");
-      parser = new StringParser(`${data} `);
-    },
-    onError: (event: Event) => {
-      const error = (event.target as { error?: Error }).error;
-      console.log("Error in Suite: ", error);
-    },
-    onAbort: () => console.log("Aborting Suite"),
-    onCycle: (event: Event) => {
-      console.log(String(event.target));
+  const suite = new BenchmarkSuite("StringParser", {
+    beforeEach: () => {
       parser = new StringParser(`${data} `);
     }
   });

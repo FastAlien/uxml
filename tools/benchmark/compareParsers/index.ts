@@ -1,4 +1,4 @@
-import { Event, Suite } from "benchmark";
+import { BenchmarkSuite } from "../BenchmarkSuite";
 import { Parser as Xml2JsParser } from "xml2js";
 import { XmlDocumentParser } from "uxml";
 import { parse as fastXmlParse } from "fast-xml-parser";
@@ -44,17 +44,11 @@ try {
   const xml = readFileSync(xmlFile, "utf-8");
   let uxmlHz = 0;
   let xmlData: string;
-  const suite = new Suite("XML parser benchmark", {
-    onStart: () => {
-      console.log("Running Suite");
+  const suite = new BenchmarkSuite("XML parser benchmark", {
+    beforeEach: () => {
       xmlData = `${xml} `;
     },
-    onError: (event: Event) => {
-      const error = (event.target as { error?: Error }).error;
-      console.error("Error in Suite: ", error);
-    },
-    onAbort: () => console.log("Aborting Suite"),
-    onCycle: (event: Event) => {
+    afterEach: event => {
       if (event.target.hz == null) {
         console.error("Unable to read test results");
         return;
@@ -64,7 +58,6 @@ try {
       }
       const percentOfUxmlResult = event.target.hz / uxmlHz * 100;
       console.log(`${event.target}, ${percentOfUxmlResult.toFixed(2)}%`);
-      xmlData = `${xml} `;
     }
   });
 

@@ -1,21 +1,11 @@
-import { Event, Suite } from "benchmark";
+import { BenchmarkSuite } from "../../BenchmarkSuite";
 import { readFileSync } from "fs";
 
 try {
   const xml = readFileSync(`${__dirname}/../../../../data/DashManifest.xml`, "utf-8");
   let data: string;
-  const suite = new Suite("StringParser", {
-    onStart: () => {
-      console.log("Running Suite");
-      data = `${xml} `;
-    },
-    onError: (event: Event) => {
-      const error = (event.target as { error?: Error }).error;
-      console.log("Error in Suite: ", error);
-    },
-    onAbort: () => console.log("Aborting Suite"),
-    onCycle: (event: Event) => {
-      console.log(String(event.target));
+  const suite = new BenchmarkSuite("StringParser", {
+    beforeEach: () => {
       data = `${xml} `;
     }
   });
