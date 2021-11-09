@@ -42,62 +42,27 @@ export class XmlElementParser {
     return element;
   }
 
-  private parseTextNode(data: StringParser): void {
-    if (this.elements.length === 0) {
-      throw new ParseError("Unexpected text node", data.position);
-    }
-    const text = this.textNodeParser.parse(data);
-    this.addChildToLastElement(text);
-  }
-
-  private addElement(element: XmlElement): void {
-    if (this.elements.length === 0) {
-      this.elements.push(element);
-    } else {
-      this.addChildToLastElement(element);
-    }
-  }
-
-  private addChildToLastElement(child: XmlNode): void {
-    const lastElement = this.elements[this.elements.length - 1];
-    if (!lastElement.children) {
-      lastElement.children = [child];
-    } else {
-      lastElement.children.push(child);
-    }
-  }
-
-  private parseTag(data: StringParser): void {
-    data.advance();
-    const element: XmlElement = {
-      tagName: this.parseTagName(data),
-      attributes: this.attributesParser.parse(data)
-    };
-
-    if (data.getCurrent() === ">") {
-      data.advance();
-      this.elements.push(element);
-    } else if (data.match("/>")) {
+  private parseCommentOrCDataSection(data: StringParser): void {
+    const beginPosition = data.position;
+    data.moveBy(2);
+    if (data.match("--")) {
       data.moveBy(2);
-      this.addElement(element);
+      this.skipComment(data, beginPosition);
+    } else if (data.matchIgnoreCase("[cdata[")) {
+      data.moveBy(7);
+      const text = this.cdataSectionParser.parse(data);
+      this.addChildToLastElement(text);
     } else {
-      throw new ParseError("Closing tag not found", data.position);
+      throw new ParseError("Invalid tag name", beginPosition);
     }
   }
 
-  private parseTagName(data: StringParser): string {
-    const tagNameEnd = data.findFirstWhitespaceOrTagClosing();
-    if (tagNameEnd === NOT_FOUND) {
-      throw new ParseError("Unable to parse tag name", data.position);
+  private skipComment(data: StringParser, begin: number): void {
+    const commentDelimiterPosition = data.findFirst(XmlElementParser.commentDelimiter);
+    if (commentDelimiterPosition === NOT_FOUND) {
+      throw new ParseError("Unclosed comment", begin);
     }
-
-    const tagName = data.substring(tagNameEnd);
-    if (!tagName) {
-      throw new ParseError("Tag name expected", data.position);
-    }
-
-    data.moveTo(tagNameEnd);
-    return tagName;
+    data.moveTo(commentDelimiterPosition + XmlElementParser.commentDelimiter.length);
   }
 
   private parseClosingTag(data: StringParser): void {
@@ -120,26 +85,61 @@ export class XmlElementParser {
     data.moveTo(endPosition + 1);
   }
 
-  private parseCommentOrCDataSection(data: StringParser): void {
-    const beginPosition = data.position;
-    data.moveBy(2);
-    if (data.match("--")) {
+  private parseTag(data: StringParser): void {
+    data.advance();
+    const element: XmlElement = {
+      tagName: this.parseTagName(data),
+      attributes: this.attributesParser.parse(data)
+    };
+
+    if (data.getCurrent() === ">") {
+      data.advance();
+      this.elements.push(element);
+    } else if (data.match("/>")) {
       data.moveBy(2);
-      this.skipComment(data, beginPosition);
-    } else if (data.matchIgnoreCase("[cdata[")) {
-      data.moveBy(7);
-      const text = this.cdataSectionParser.parse(data);
-      this.addChildToLastElement(text);
+      this.addElement(element);
     } else {
-      throw new ParseError("Invalid tag name", beginPosition);
+      throw new ParseError("Closing tag not found", data.position);
     }
   }
 
-  private skipComment(data: StringParser, begin: number): void {
-    const commentDelimiterPosition = data.findFirst(XmlElementParser.commentDelimiter);
-    if (commentDelimiterPosition === NOT_FOUND) {
-      throw new ParseError("Unclosed comment", begin);
+  private addElement(element: XmlElement): void {
+    if (this.elements.length === 0) {
+      this.elements.push(element);
+    } else {
+      this.addChildToLastElement(element);
     }
-    data.moveTo(commentDelimiterPosition + XmlElementParser.commentDelimiter.length);
+  }
+
+  private addChildToLastElement(child: XmlNode): void {
+    const lastElement = this.elements[this.elements.length - 1];
+    if (!lastElement.children) {
+      lastElement.children = [child];
+    } else {
+      lastElement.children.push(child);
+    }
+  }
+
+  private parseTextNode(data: StringParser): void {
+    if (this.elements.length === 0) {
+      throw new ParseError("Unexpected text node", data.position);
+    }
+    const text = this.textNodeParser.parse(data);
+    this.addChildToLastElement(text);
+  }
+
+  private parseTagName(data: StringParser): string {
+    const tagNameEnd = data.findFirstWhitespaceOrTagClosing();
+    if (tagNameEnd === NOT_FOUND) {
+      throw new ParseError("Unable to parse tag name", data.position);
+    }
+
+    const tagName = data.substring(tagNameEnd);
+    if (!tagName) {
+      throw new ParseError("Tag name expected", data.position);
+    }
+
+    data.moveTo(tagNameEnd);
+    return tagName;
   }
 }
