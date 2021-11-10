@@ -14,51 +14,62 @@
         "children": [
           {
             "tagName": "phone",
+            "attributes": {},
             "children": [
               "+122233344550"
             ]
           },
           {
             "tagName": "name",
+            "attributes": {},
             "children": [
               "Jack"
             ]
           },
           {
             "tagName": "phone",
+            "attributes": {},
             "children": [
               "+122233344551"
             ]
           },
           {
             "tagName": "age",
+            "attributes": {},
             "children": [
               "33"
             ]
           },
           {
-            "tagName": "emptyNode"
+            "tagName": "emptyNode",
+            "attributes": {},
+            "children": []
           },
           {
             "tagName": "booleanNode",
+            "attributes": {},
             "children": [
               "false"
             ]
           },
           {
             "tagName": "booleanNode",
+            "attributes": {},
             "children": [
               "true"
             ]
           },
           {
-            "tagName": "selfclosing"
+            "tagName": "selfclosing",
+            "attributes": {},
+            "children": []
           },
           {
             "tagName": "selfclosing",
             "attributes": {
               "with": "value"
-            }
+            },
+            "children": []
           },
           {
             "tagName": "married",
@@ -72,33 +83,39 @@
           },
           {
             "tagName": "birthday",
+            "attributes": {},
             "children": [
               "Wed, 28 Mar 1979 12:13:14 +0300"
             ]
           },
           {
             "tagName": "address",
+            "attributes": {},
             "children": [
               {
                 "tagName": "city",
+                "attributes": {},
                 "children": [
                   "New York"
                 ]
               },
               {
                 "tagName": "street",
+                "attributes": {},
                 "children": [
                   "Park Ave"
                 ]
               },
               {
                 "tagName": "buildingNo",
+                "attributes": {},
                 "children": [
                   "1"
                 ]
               },
               {
                 "tagName": "flatNo",
+                "attributes": {},
                 "children": [
                   "1"
                 ]
@@ -107,27 +124,32 @@
           },
           {
             "tagName": "address",
+            "attributes": {},
             "children": [
               {
                 "tagName": "city",
+                "attributes": {},
                 "children": [
                   "Boston"
                 ]
               },
               {
                 "tagName": "street",
+                "attributes": {},
                 "children": [
                   "Centre St"
                 ]
               },
               {
                 "tagName": "buildingNo",
+                "attributes": {},
                 "children": [
                   "33"
                 ]
               },
               {
                 "tagName": "flatNo",
+                "attributes": {},
                 "children": [
                   "24"
                 ]
@@ -144,24 +166,28 @@
         "children": [
           {
             "tagName": "phone",
+            "attributes": {},
             "children": [
               "+122233344553"
             ]
           },
           {
             "tagName": "name",
+            "attributes": {},
             "children": [
               "Boris"
             ]
           },
           {
             "tagName": "phone",
+            "attributes": {},
             "children": [
               "+122233344554"
             ]
           },
           {
             "tagName": "age",
+            "attributes": {},
             "children": [
               "34"
             ]
@@ -177,33 +203,39 @@
           },
           {
             "tagName": "birthday",
+            "attributes": {},
             "children": [
               "Mon, 31 Aug 1970 02:03:04 +0300"
             ]
           },
           {
             "tagName": "address",
+            "attributes": {},
             "children": [
               {
                 "tagName": "city",
+                "attributes": {},
                 "children": [
                   "Moscow"
                 ]
               },
               {
                 "tagName": "street",
+                "attributes": {},
                 "children": [
                   "Kahovka"
                 ]
               },
               {
                 "tagName": "buildingNo",
+                "attributes": {},
                 "children": [
                   "1"
                 ]
               },
               {
                 "tagName": "flatNo",
+                "attributes": {},
                 "children": [
                   "2"
                 ]
@@ -212,27 +244,32 @@
           },
           {
             "tagName": "address",
+            "attributes": {},
             "children": [
               {
                 "tagName": "city",
+                "attributes": {},
                 "children": [
                   "Tula"
                 ]
               },
               {
                 "tagName": "street",
+                "attributes": {},
                 "children": [
                   "Lenina"
                 ]
               },
               {
                 "tagName": "buildingNo",
+                "attributes": {},
                 "children": [
                   "3"
                 ]
               },
               {
                 "tagName": "flatNo",
+                "attributes": {},
                 "children": [
                   "78"
                 ]

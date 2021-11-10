@@ -11,8 +11,8 @@ export interface XmlAttribute {
 
 export interface XmlElement {
   tagName: string;
-  attributes?: XmlAttributes;
-  children?: XmlNode[];
+  attributes: XmlAttributes;
+  children: XmlNode[];
 }
 
 export type XmlAttributes = Record<string, string>;

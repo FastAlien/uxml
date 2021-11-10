@@ -6,7 +6,9 @@ import { XmlElementParser } from "./XmlElementParser";
 it("should parse XML element without attributes and children", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
-    tagName: "Person"
+    tagName: "Person",
+    attributes: {},
+    children: []
   };
 
   expect(parser.parse(new StringParser("<Person/>")))
@@ -25,7 +27,8 @@ it("should parse XML element with one attribute and no children", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
-    attributes: { firstName: "John" }
+    attributes: { firstName: "John" },
+    children: []
   };
 
   expect(parser.parse(new StringParser("<Person firstName=\"John\"/>")))
@@ -46,7 +49,8 @@ it("should parse XML element with attributes and no children", () => {
       firstName: "John",
       lastName: "Smith Johnson",
       phoneNumber: "00 123 456 789"
-    }
+    },
+    children: []
   };
 
   expect(parser.parse(new StringParser("<Person firstName=\"John\" lastName=\"Smith Johnson\" phoneNumber=\"00 123 456 789\"/>")))
@@ -61,8 +65,9 @@ it("should parse XML element with one child and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "People",
+    attributes: {},
     children: [
-      { tagName: "Person" }
+      { tagName: "Person", attributes: {}, children: [] }
     ]
   };
 
@@ -78,10 +83,11 @@ it("should parse XML element with children and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "People",
+    attributes: {},
     children: [
-      { tagName: "FirstChild" },
-      { tagName: "SecondChild" },
-      { tagName: "ThirdChild" }
+      { tagName: "FirstChild", attributes: {}, children: [] },
+      { tagName: "SecondChild", attributes: {}, children: [] },
+      { tagName: "ThirdChild", attributes: {}, children: [] }
     ]
   };
 
@@ -97,20 +103,23 @@ it("should parse XML element with nested children and no attributes", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Root",
+    attributes: {},
     children: [
       {
         tagName: "FirstLevel",
+        attributes: {},
         children: [
           {
             tagName: "SecondLevel",
+            attributes: {},
             children: [
-              { tagName: "ThirdLevel" }
+              { tagName: "ThirdLevel", attributes: {}, children: [] }
             ]
           }
         ]
       },
-      { tagName: "SecondChild" },
-      { tagName: "ThirdChild" }
+      { tagName: "SecondChild", attributes: {}, children: [] },
+      { tagName: "ThirdChild", attributes: {},children: [] }
     ]
   };
 
@@ -122,9 +131,11 @@ it("should parse XML element with one text node child", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
+    attributes: {},
     children: [
       {
         tagName: "Name",
+        attributes: {},
         children: [
           "John Smith Johnson"
         ]
@@ -144,9 +155,11 @@ it("should parse XML element with comments", () => {
   const parser = new XmlElementParser();
   const expected: XmlElement = {
     tagName: "Person",
+    attributes: {},
     children: [
       {
         tagName: "Name",
+        attributes: {},
         children: [
           "John Smith Johnson"
         ]
@@ -167,9 +180,11 @@ it("should parse XML element with one text node child containing CDATA section",
   const text = "\n<Person>\n\tJohn Smith Johnson\n</Person>\n";
   const expected: XmlElement = {
     tagName: "Person",
+    attributes: {},
     children: [
       {
         tagName: "Name",
+        attributes: {},
         children: [
           text
         ]

@@ -89,7 +89,8 @@ export class XmlElementParser {
     data.advance();
     const element: XmlElement = {
       tagName: this.parseTagName(data),
-      attributes: this.attributesParser.parse(data)
+      attributes: this.attributesParser.parse(data),
+      children: []
     };
 
     if (data.getCurrent() === ">") {
@@ -113,11 +114,7 @@ export class XmlElementParser {
 
   private addChildToLastElement(child: XmlNode): void {
     const lastElement = this.elements[this.elements.length - 1];
-    if (!lastElement.children) {
-      lastElement.children = [child];
-    } else {
-      lastElement.children.push(child);
-    }
+    lastElement.children.push(child);
   }
 
   private parseTextNode(data: StringParser): void {

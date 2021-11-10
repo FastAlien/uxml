@@ -9,7 +9,9 @@ const xmlDeclaration: XmlDeclaration = {
 const xmlDocumentWithRootOnly: XmlDocument = {
   ...xmlDeclaration,
   root: {
-    tagName: "root"
+    tagName: "root",
+    attributes: {},
+    children: []
   }
 };
 

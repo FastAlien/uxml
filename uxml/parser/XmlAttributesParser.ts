@@ -5,8 +5,8 @@ import { XmlAttributes } from "./Types";
 export class XmlAttributesParser {
   private attributeParser = new XmlAttributeParser();
 
-  public parse(data: StringParser): XmlAttributes | undefined {
-    let attributes: XmlAttributes | undefined;
+  public parse(data: StringParser): XmlAttributes {
+    const attributes: XmlAttributes = {};
 
     data.moveToNextNonWhitespaceChar();
     while (!data.isEnd()) {
@@ -15,13 +15,7 @@ export class XmlAttributesParser {
         break;
       }
       const { name, value } = this.attributeParser.parse(data);
-      if (!attributes) {
-        attributes = {
-          [name]: value
-        };
-      } else {
-        attributes[name] = value;
-      }
+      attributes[name] = value;
       data.moveToNextNonWhitespaceChar();
     }
 
